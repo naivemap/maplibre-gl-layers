@@ -7,7 +7,7 @@ function generateMarkdownForExample(title, description, file, htmlContent) {
 
 ${description}
 
-<iframe src="/demos/${file}" width="100%" style="border:none; height:400px"></iframe>
+<iframe src="/maplibre-gl-echarts-layer/demos/${file}" width="100%" style="border:none; height:400px"></iframe>
 
 \`\`\`html
 ${htmlContent}

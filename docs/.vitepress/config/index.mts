@@ -13,8 +13,8 @@ export default defineConfig({
   title: 'Lib',
   // titleTemplate: 'Lib',
   description: 'A JavaScript library template built with Vite',
-  base: '/vite-lib-template/',
-  head: [['link', { rel: 'icon', href: '/vite-lib-template/logo.svg' }]],
+  base: '/maplibre-gl-echarts-layer/',
+  head: [['link', { rel: 'icon', href: '/maplibre-gl-echarts-layer/logo.svg' }]],
   cleanUrls: true,
   rewrites: {
     '(.*)/README.md': '(.*)/index.md'

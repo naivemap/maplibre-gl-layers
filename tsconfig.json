@@ -2,10 +2,10 @@
   "compilerOptions": {
     "baseUrl": "src",
     "moduleResolution": "bundler",
-    "target": "es2021",
+    "target": "es2024",
     "useDefineForClassFields": true,
     "module": "ESNext",
-    "lib": ["es2024", "es2023", "DOM", "DOM.Iterable"],
+    "lib": ["es2024", "DOM"],
     "skipLibCheck": true,
     /* Bundler mode */
     "resolveJsonModule": true,
