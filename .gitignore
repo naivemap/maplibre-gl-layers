@@ -1,0 +1,13 @@
+.vscode
+dist/
+node_modules/
+temp
+tests/coverage/
+
+package-lock.json
+yarn.lock
+
+docs/.vitepress/dist/
+docs/.vitepress/cache/
+
+docs/api/
