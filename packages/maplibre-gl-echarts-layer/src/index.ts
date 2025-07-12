@@ -12,6 +12,9 @@ import {
 } from 'echarts'
 import maplibregl from 'maplibre-gl'
 
+/**
+ * EChartsLayer 配置项
+ */
 export type ECOption = ComposeOption<
   | TitleComponentOption
   | TooltipComponentOption
@@ -77,7 +80,14 @@ class CoordinateSystem {
  */
 export default class EChartsLayer implements maplibregl.CustomLayerInterface {
   id: string
+  /**
+   * 图层类型
+   * @ignore
+   */
   type: 'custom'
+  /**
+   * @ignore
+   */
   renderingMode?: '2d' | '3d' | undefined
   private _container!: HTMLDivElement
   private _map!: maplibregl.Map
@@ -85,6 +95,11 @@ export default class EChartsLayer implements maplibregl.CustomLayerInterface {
   private _coordSystemName: string
   private _ecOption: ECOption
 
+  /**
+   * 构造函数，用于初始化 EChartsLayer 实例
+   * @param id - 图层 id
+   * @param ecOption - ECharts 的配置选项
+   */
   constructor(id: string, ecOption: ECOption) {
     this.id = id
     this.type = 'custom'
@@ -93,6 +108,9 @@ export default class EChartsLayer implements maplibregl.CustomLayerInterface {
     this._ecOption = ecOption
   }
 
+  /**
+   * @ignore
+   */
   onAdd(map: maplibregl.Map) {
     this._map = map
     this._createLayerContainer()
@@ -102,15 +120,25 @@ export default class EChartsLayer implements maplibregl.CustomLayerInterface {
     }
   }
 
+  /**
+   * @ignore
+   */
   onRemove() {
     this._ec?.dispose()
     this._removeLayerContainer()
   }
 
+  /**
+   * 设置配置项
+   * @param option 
+   */
   setOption(option: ECOption) {
     this._ec?.setOption(option)
   }
 
+  /**
+   * @ignore
+   */
   render() {
     if (!this._container) {
       this._createLayerContainer()
@@ -132,6 +160,9 @@ export default class EChartsLayer implements maplibregl.CustomLayerInterface {
     }
   }
 
+  /**
+   * @ignore
+   */
   private _prepareECharts() {
     const series = this._ecOption.series as any[]
     if (series) {
@@ -144,6 +175,9 @@ export default class EChartsLayer implements maplibregl.CustomLayerInterface {
     }
   }
 
+  /**
+   * @ignore
+   */
   private _createLayerContainer() {
     const mapContainer = this._map.getCanvasContainer()
     this._container = document.createElement('div')
@@ -152,6 +186,9 @@ export default class EChartsLayer implements maplibregl.CustomLayerInterface {
     mapContainer.appendChild(this._container)
   }
 
+  /**
+   * @ignore
+   */
   private _removeLayerContainer() {
     if (this._container) {
       this._container.parentNode?.removeChild(this._container)

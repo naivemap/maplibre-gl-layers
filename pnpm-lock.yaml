@@ -66,6 +66,43 @@ importers:
         specifier: ^3.2.4
         version: 3.2.4(@types/node@22.14.0)(@vitest/ui@3.2.4)(less@4.3.0)(yaml@2.7.1)
 
+  packages/maplibre-gl-echarts-layer:
+    devDependencies:
+      echarts:
+        specifier: ^5.6.0
+        version: 5.6.0
+      maplibre-gl:
+        specifier: ^5.6.1
+        version: 5.6.1
+
+  packages/maplibre-gl-image-layer:
+    dependencies:
+      compare-versions:
+        specifier: ^6.1.1
+        version: 6.1.1
+      earcut:
+        specifier: ^3.0.1
+        version: 3.0.1
+      maplibre-gl:
+        specifier: ^4.0.0 || ^5.0.0
+        version: 5.6.1
+      proj4:
+        specifier: ^2.8.0
+        version: 2.19.5
+      tinyqueue:
+        specifier: ^3.0.0
+        version: 3.0.0
+      twgl.js:
+        specifier: ^5.5.4
+        version: 5.5.4
+    devDependencies:
+      '@types/earcut':
+        specifier: ^2.1.1
+        version: 2.1.4
+      '@types/proj4':
+        specifier: ^2.5.2
+        version: 2.19.0
+
 packages:
 
   '@algolia/autocomplete-core@1.17.9':
@@ -702,6 +739,9 @@ packages:
   '@types/deep-eql@4.0.2':
     resolution: {integrity: sha512-c9h9dVVMigMPc4bwTvC5dxqtqJZwQPePsWjPlpSOnojbor6pGqdk541lfA7AqFQr5pB1BRdq0juY9db81BwyFw==}
 
+  '@types/earcut@2.1.4':
+    resolution: {integrity: sha512-qp3m9PPz4gULB9MhjGID7wpo3gJ4bTGXm7ltNDsmOvsPduTeHp8wSW9YckBj3mljeOh4F0m2z/0JKAALRKbmLQ==}
+
   '@types/estree@1.0.7':
     resolution: {integrity: sha512-w28IoSUCJpidD/TGviZwwMJckNESJZXFu7NBZ5YJ4mEUnNraUn9Pm8HSZm/jDF1pDWYKspWE7oVphigUPRakIQ==}
 
@@ -737,6 +777,10 @@ packages:
 
   '@types/pbf@3.0.5':
     resolution: {integrity: sha512-j3pOPiEcWZ34R6a6mN07mUkM4o4Lwf6hPNt8eilOeZhTFbxFXmKhvXl9Y28jotFPaI1bpPDJsbCprUoNke6OrA==}
+
+  '@types/proj4@2.19.0':
+    resolution: {integrity: sha512-mirdnXu5sW9+IphQ4r+ZVii2JVLDbXgMp1lxqbiCppdgL22EwMwL4Dy/cyHVaJ2y/mi7LUQHghpILd3w3j2bnA==}
+    deprecated: This is a stub types definition. proj4 provides its own type definitions, so you do not need this installed.
 
   '@types/supercluster@7.1.3':
     resolution: {integrity: sha512-Z0pOY34GDFl3Q6hUFYf3HkTwKEE02e7QgtJppBt+beEAxnyOpJua+voGFvxINBHa06GwLFFym7gRPY2SiKIfIA==}
@@ -1778,6 +1822,9 @@ packages:
     resolution: {integrity: sha512-8q7VEgMJW4J8tcfVPy8g09NcQwZdbwFEqhe/WZkoIzjn/3TGDwtOCYtXGxA3O8tPzpczCCDgv+P2P5y00ZJOOg==}
     engines: {node: '>= 8'}
 
+  mgrs@1.0.0:
+    resolution: {integrity: sha512-awNbTOqCxK1DBGjalK3xqWIstBZgN6fxsMSiXLs9/spqWkF2pAhb2rrYCFSsr1/tT7PhcDGjZndG8SWYn0byYA==}
+
   mhchemparser@4.2.1:
     resolution: {integrity: sha512-kYmyrCirqJf3zZ9t/0wGgRZ4/ZJw//VwaRVGA75C4nhE60vtnIzhl9J9ndkX/h6hxSN7pjg/cE0VxbnNM+bnDQ==}
 
@@ -2037,6 +2084,9 @@ packages:
   process@0.11.10:
     resolution: {integrity: sha512-cdGef/drWFoydD1JsMzuFf8100nZl+GT+yacc2bEced5f9Rjk4z+WtFUTBu9PhOi9j/jfmBPu0mMEY4wIdAF8A==}
     engines: {node: '>= 0.6.0'}
+
+  proj4@2.19.5:
+    resolution: {integrity: sha512-hFn7GJwUZ1YiAAfSfur7VRgiH0swIZFxJb7UZ7C4E9tbqyozSn+SI9ZxFgFKmUldtY3tVTBvylJhwfD+O3pHQw==}
 
   property-information@7.0.0:
     resolution: {integrity: sha512-7D/qOz/+Y4X/rzSB6jKxKUsQnphO046ei8qxG59mtM3RG3DHgTK81HrxrmoDVINJb8NKT5ZsRbwHvQ6B68Iyhg==}
@@ -2337,6 +2387,9 @@ packages:
   tslib@2.5.0:
     resolution: {integrity: sha512-336iVw3rtn2BUK7ORdIAHTyxHGRIHVReokCR3XjbckJMK7ms8FysBfhLR8IXnAgy7T0PTPNBWKiH514FOW/WSg==}
 
+  twgl.js@5.5.4:
+    resolution: {integrity: sha512-6kFOmijOpmblTN9CCwOTCxK4lPg7rCyQjLuub6EMOlEp89Ex6yUcsMjsmH7andNPL2NE3XmHdqHeP5gVKKPhxw==}
+
   type-check@0.3.2:
     resolution: {integrity: sha512-ZCmOJdvOWDBYJlzAoFkC+Q0+bUyEOS1ltgp1MGU03fqHG+dbi9tBFU2Rd9QKiDZFAYrhPh2JUf7rZRIuHRKtOg==}
     engines: {node: '>= 0.8.0'}
@@ -2564,6 +2617,9 @@ packages:
 
   wicked-good-xpath@1.3.0:
     resolution: {integrity: sha512-Gd9+TUn5nXdwj/hFsPVx5cuHHiF5Bwuc30jZ4+ronF1qHK5O7HD0sgmXWSEgwKquT3ClLoKPVbO6qGwVwLzvAw==}
+
+  wkt-parser@1.5.2:
+    resolution: {integrity: sha512-1ZUiV1FTwSiSrgWzV9KXJuOF2BVW91KY/mau04BhnmgOdroRQea7Q0s5TVqwGLm0D2tZwObd/tBYXW49sSxp3Q==}
 
   word-wrap@1.2.5:
     resolution: {integrity: sha512-BN22B5eaMMI9UMtjrGd5g5eCYPpCPDUy0FJXbYsaT5zYxjFOckS53SQDE3pWkVoWpHXVb3BrYcEN4Twa55B5cA==}
@@ -3308,6 +3364,8 @@ snapshots:
 
   '@types/deep-eql@4.0.2': {}
 
+  '@types/earcut@2.1.4': {}
+
   '@types/estree@1.0.7': {}
 
   '@types/estree@1.0.8': {}
@@ -3343,6 +3401,10 @@ snapshots:
       undici-types: 6.21.0
 
   '@types/pbf@3.0.5': {}
+
+  '@types/proj4@2.19.0':
+    dependencies:
+      proj4: 2.19.5
 
   '@types/supercluster@7.1.3':
     dependencies:
@@ -4512,6 +4574,8 @@ snapshots:
 
   merge2@1.4.1: {}
 
+  mgrs@1.0.0: {}
+
   mhchemparser@4.2.1: {}
 
   micromark-util-character@2.1.1:
@@ -4727,6 +4791,11 @@ snapshots:
   prettier@3.6.2: {}
 
   process@0.11.10: {}
+
+  proj4@2.19.5:
+    dependencies:
+      mgrs: 1.0.0
+      wkt-parser: 1.5.2
 
   property-information@7.0.0: {}
 
@@ -5017,6 +5086,8 @@ snapshots:
   tslib@2.3.0: {}
 
   tslib@2.5.0: {}
+
+  twgl.js@5.5.4: {}
 
   type-check@0.3.2:
     dependencies:
@@ -5311,6 +5382,8 @@ snapshots:
       stackback: 0.0.2
 
   wicked-good-xpath@1.3.0: {}
+
+  wkt-parser@1.5.2: {}
 
   word-wrap@1.2.5: {}
 

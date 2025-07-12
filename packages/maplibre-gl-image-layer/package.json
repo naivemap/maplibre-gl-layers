@@ -1,0 +1,52 @@
+{
+  "name": "@naivemap/maplibre-gl-image-layer",
+  "version": "0.0.0",
+  "description": "A JavaScript library template built with Vite",
+  "main": "./dist/index.umd.cjs",
+  "module": "./dist/index.js",
+  "type": "module",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "require": "./dist/index.umd.cjs"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "keywords": [],
+  "author": "huangli",
+  "license": "BSD-3-Clause",
+  "types": "./dist/index.d.ts",
+  "repository": "https://github.com/naivemap/maplibre-gl-echarts-layer",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "gen-docs-example": "node ./scripts/gen-docs-example.js",
+    "docs:dev": "pnpm gen-docs-example && concurrently \"typedoc --watch\" \"vitepress dev docs\"",
+    "docs:build": "pnpm typedoc",
+    "docs:preview": "pnpm gen-docs-example && vitepress preview docs",
+    "test": "vitest",
+    "test:ui": "vitest --ui",
+    "changeset": "changeset",
+    "changeset:version": "changeset version",
+    "changeset:publish": "changeset publish",
+    "changeset:status": "changeset status",
+    "release": "pnpm build && changeset publish",
+    "prettier": "prettier --write ."
+  },
+  "peerDependencies": {
+    "proj4": "^2.8.0",
+    "maplibre-gl": "^4.0.0 || ^5.0.0"
+  },
+  "dependencies": {
+    "compare-versions": "^6.1.1",
+    "earcut": "^3.0.1",
+    "tinyqueue": "^3.0.0",
+    "twgl.js": "^5.5.4"
+  },
+  "devDependencies": {
+    "@types/earcut": "^2.1.1",
+    "@types/proj4": "^2.5.2"
+  }
+}
