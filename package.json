@@ -3,15 +3,15 @@
   "version": "0.0.0",
   "description": "Some implementations of maplibre's custom layer API.",
   "private": true,
-  "keywords": [],
+  "keywords": ["maplibre", "echarts", "image", "layer", "custom"],
   "author": "naivemap",
   "license": "MIT",
-  "repository": "https://github.com/naivemap/maplibre-gl-echarts-layer",
+  "repository": "https://github.com/naivemap/maplibre-gl-layers",
   "scripts": {
     "dev": "vite",
     "build": "pnpm -r build",
     "gen-docs-example": "node ./scripts/gen-docs-example.js",
-    "docs:dev": "vitepress dev docs",
+    "docs:dev": "pnpm -r docs:build && vitepress dev docs",
     "docs:build": "pnpm -r docs:build && vitepress build docs",
     "docs:preview": "pnpm gen-docs-example && vitepress preview docs",
     "test": "vitest",
@@ -22,10 +22,6 @@
     "changeset:status": "changeset status",
     "release": "pnpm build && changeset publish",
     "prettier": "prettier --write ."
-  },
-  "peerDependencies": {
-    "echarts": "^5.3.0",
-    "maplibre-gl": "^4.0.0 || ^5.0.0"
   },
   "devDependencies": {
     "@changesets/cli": "^2.29.5",

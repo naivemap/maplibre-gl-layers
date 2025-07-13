@@ -10,9 +10,9 @@ import { pascalToKebab, singularToPlural } from './util'
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
   lang: 'zh-Hans-CN',
-  title: 'Lib',
+  title: 'maplibre-gl-layers',
   // titleTemplate: 'Lib',
-  description: 'A JavaScript library template built with Vite',
+  description: '自定义图层集',
   base: '/maplibre-gl-layers/',
   head: [['link', { rel: 'icon', href: '/maplibre-gl-layers/logo.svg' }]],
   cleanUrls: true,
@@ -35,12 +35,12 @@ export default defineConfig({
     },
     nav: [
       { text: '快速开始', link: '/starter' },
-      { text: '示例', link: '/examples' },
-      { text: 'API', link: '/api' }
+      { text: 'API', link: '/api' },
+      { text: '示例', link: '/examples' }
     ],
     sidebar: {
       // '/api': sidebarApi(),
-      'api': [
+      api: [
         {
           text: 'echarts-layer',
           link: '/api/echarts-layer',
@@ -54,7 +54,7 @@ export default defineConfig({
       ],
       '/examples': [
         {
-          text: '示例1',
+          text: '示例',
           link: '/examples',
           items: sidebarExamples()
         }
@@ -63,11 +63,11 @@ export default defineConfig({
     socialLinks: [
       {
         icon: 'github',
-        link: 'https://github.com/huanglii/vite-lib-template'
+        link: 'https://github.com/naivemap/maplibre-gl-layers'
       }
     ],
     editLink: {
-      pattern: 'https://github.com/huanglii/vite-lib-template/edit/main/docs/:path',
+      pattern: 'https://github.com/naivemap/maplibre-gl-layers/edit/main/docs/:path',
       text: '在 GitHub 上编辑此页面'
     },
     footer: {

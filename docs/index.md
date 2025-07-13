@@ -8,7 +8,7 @@ hero:
   tagline:
   image:
     src: /logo.svg
-    alt: Lib
+    alt: maplibre-gl-layers
   actions:
     - theme: brand
       text: 快速开始
