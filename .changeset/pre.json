@@ -1,0 +1,12 @@
+{
+  "mode": "pre",
+  "tag": "alpha",
+  "initialVersions": {
+    "@naivemap/maplibre-gl-echarts-layer": "0.0.0",
+    "@naivemap/maplibre-gl-image-layer": "0.0.0"
+  },
+  "changesets": [
+    "fluffy-doors-rescue",
+    "fruity-dryers-beg"
+  ]
+}

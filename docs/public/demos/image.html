@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="zh-Hans">
+  <head>
+    <title>投影图片</title>
+    <meta property="og:description" content="显示 EPSG:4326 投影的图片。" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="https://unpkg.com/maplibre-gl/dist/maplibre-gl.css" />
+    <script src="https://unpkg.com/maplibre-gl/dist/maplibre-gl.js"></script>
+    <script src="https://unpkg.com/@naivemap/maplibre-gl-image-layer"></script>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+      }
+
+      #map {
+        height: 400px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="map"></div>
+    <script>
+      const map = new maplibregl.Map({
+        container: 'map',
+        style: 'https://www.naivemap.com/demotiles/style.json',
+        bounds: [
+          [105.289838, 32.204171],
+          [110.195632, 28.164713]
+        ],
+        fitBoundsOptions: {
+          padding: { top: 10, bottom: 10, left: 10, right: 10 }
+        }
+      })
+      map.on('load', () => {
+        const layer4326 = new ImageLayer('image-layer', {
+          url: 'https://www.naivemap.com/mapbox-gl-js-cookbook/assets/images/4326.png',
+          projection: 'EPSG:4326',
+          coordinates: [
+            [105.289838, 32.204171], // top-left
+            [110.195632, 32.204171], // top-right
+            [110.195632, 28.164713], // bottom-right
+            [105.289838, 28.164713] // bottom-left
+          ]
+        })
+
+        map.addLayer(layer4326)
+      })
+    </script>
+  </body>
+</html>

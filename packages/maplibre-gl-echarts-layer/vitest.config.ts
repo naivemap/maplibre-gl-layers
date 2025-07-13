@@ -4,7 +4,7 @@ export default defineConfig({
   test: {
     coverage: {
       enabled: true,
-      include: ['src'],
+      include: ['./src'],
       reporter: 'html',
       reportsDirectory: './tests/coverage'
     }

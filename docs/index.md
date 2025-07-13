@@ -3,12 +3,12 @@
 layout: home
 
 hero:
-  name: 'Lib'
-  text: 'A JavaScript library template built with Vite'
+  name: 'maplibre-gl-layers'
+  text: '自定义图层集'
   tagline:
   image:
     src: /logo.svg
-    alt: Lib
+    alt: maplibre-gl-layers
   actions:
     - theme: brand
       text: 快速开始

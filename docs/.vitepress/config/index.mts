@@ -4,17 +4,17 @@ import { fileURLToPath } from 'node:url'
 import { ReflectionKind } from 'typedoc'
 import type { DefaultTheme } from 'vitepress'
 import { defineConfig } from 'vitepress'
-import apiJSON from '../../api/api.json'
+import apiJSON from '../../api/echarts-layer/api.json'
 import { pascalToKebab, singularToPlural } from './util'
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
   lang: 'zh-Hans-CN',
-  title: 'Lib',
+  title: 'maplibre-gl-layers',
   // titleTemplate: 'Lib',
-  description: 'A JavaScript library template built with Vite',
-  base: '/vite-lib-template/',
-  head: [['link', { rel: 'icon', href: '/vite-lib-template/logo.svg' }]],
+  description: '自定义图层集',
+  base: '/maplibre-gl-layers/',
+  head: [['link', { rel: 'icon', href: '/maplibre-gl-layers/logo.svg' }]],
   cleanUrls: true,
   rewrites: {
     '(.*)/README.md': '(.*)/index.md'
@@ -35,11 +35,23 @@ export default defineConfig({
     },
     nav: [
       { text: '快速开始', link: '/starter' },
-      { text: '示例', link: '/examples' },
-      { text: 'API', link: '/api' }
+      { text: 'API', link: '/api' },
+      { text: '示例', link: '/examples' }
     ],
     sidebar: {
-      '/api': sidebarApi(),
+      // '/api': sidebarApi(),
+      api: [
+        {
+          text: 'echarts-layer',
+          link: '/api/echarts-layer',
+          items: sidebarApi('echarts-layer')
+        },
+        {
+          text: 'image-layer',
+          link: '/api/image-layer',
+          items: sidebarApi('image-layer')
+        }
+      ],
       '/examples': [
         {
           text: '示例',
@@ -51,11 +63,11 @@ export default defineConfig({
     socialLinks: [
       {
         icon: 'github',
-        link: 'https://github.com/huanglii/vite-lib-template'
+        link: 'https://github.com/naivemap/maplibre-gl-layers'
       }
     ],
     editLink: {
-      pattern: 'https://github.com/huanglii/vite-lib-template/edit/main/docs/:path',
+      pattern: 'https://github.com/naivemap/maplibre-gl-layers/edit/main/docs/:path',
       text: '在 GitHub 上编辑此页面'
     },
     footer: {
@@ -118,7 +130,7 @@ export default defineConfig({
 /**
  * 生成 API 侧边栏
  */
-function sidebarApi(): DefaultTheme.SidebarItem[] {
+function sidebarApi(pkg: string): DefaultTheme.SidebarItem[] {
   /**
    * 按类型分组 Kinds of reflection:
    * URL_ADDRESS   * https://typedoc.org/api/enums/Models.ReflectionKind.html
@@ -133,7 +145,7 @@ function sidebarApi(): DefaultTheme.SidebarItem[] {
     res.push({
       text: key,
       items: value.map((item) => {
-        return { text: item.name, link: `/api/${path}/${item.name}` }
+        return { text: item.name, link: `/api/${pkg}/${path}/${item.name}` }
       })
     })
   }
