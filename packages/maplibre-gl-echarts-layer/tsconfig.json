@@ -1,38 +1,9 @@
 {
+  "extends": "../../tsconfig.base.json",
   "compilerOptions": {
-    "baseUrl": "src",
-    "moduleResolution": "bundler",
-    "target": "es2024",
-    "useDefineForClassFields": true,
-    "module": "ESNext",
-    "lib": ["es2024", "DOM"],
-    "skipLibCheck": true,
-    /* Bundler mode */
-    "resolveJsonModule": true,
-    "isolatedModules": true,
-    "noEmit": true,
-    /* Linting */
-    "strict": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": false,
-    "noFallthroughCasesInSwitch": true,
-    "declaration": true,
-    "allowSyntheticDefaultImports": true,
-    "allowJs": true,
     "paths": {
-      "@/*": ["./*"]
+      "@/*": ["./src/*"]
     }
   },
-  "ts-node": {
-    "transpileOnly": true,
-    "files": true
-    // "experimentalSpecifierResolution": "node",
-    // "esm": true,
-    // "compilerOptions": {
-    //   "target": "es2019",
-    //   "types": ["node"]
-    // }
-  },
   "include": ["src"],
-  "exclude": ["src/**/*.test.ts"]
 }

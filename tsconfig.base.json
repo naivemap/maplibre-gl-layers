@@ -1,8 +1,8 @@
 {
   "compilerOptions": {
-    "baseUrl": "src",
+    "baseUrl": ".",
     "moduleResolution": "bundler",
-    "target": "es2024",
+    "target": "ESNext",
     "useDefineForClassFields": true,
     "module": "ESNext",
     "lib": ["es2024", "DOM"],
@@ -18,21 +18,5 @@
     "noFallthroughCasesInSwitch": true,
     "declaration": true,
     "allowSyntheticDefaultImports": true,
-    "allowJs": true,
-    "paths": {
-      "@/*": ["./*"]
-    }
   },
-  "ts-node": {
-    "transpileOnly": true,
-    "files": true
-    // "experimentalSpecifierResolution": "node",
-    // "esm": true,
-    // "compilerOptions": {
-    //   "target": "es2019",
-    //   "types": ["node"]
-    // }
-  },
-  "include": ["src"],
-  "exclude": ["src/**/*.test.ts"]
 }
