@@ -17,9 +17,6 @@
     "test": "vitest",
     "test:ui": "vitest --ui",
     "changeset": "changeset",
-    "changeset:version": "changeset version",
-    "changeset:publish": "changeset publish",
-    "changeset:status": "changeset status",
     "release": "pnpm build && changeset publish",
     "prettier": "prettier --write ."
   },

@@ -1,6 +1,6 @@
 {
   "name": "@naivemap/maplibre-gl-echarts-layer",
-  "version": "0.0.0",
+  "version": "0.0.1-alpha.0",
   "description": "Integrate the Lines graph and Scatter (bubble) chart of Apache ECharts",
   "main": "./dist/index.umd.cjs",
   "module": "./dist/index.js",
@@ -14,7 +14,12 @@
   "files": [
     "dist"
   ],
-  "keywords": ["maplibre", "echarts", "layer", "custom"],
+  "keywords": [
+    "maplibre",
+    "echarts",
+    "layer",
+    "custom"
+  ],
   "author": "naivemap",
   "license": "MIT",
   "types": "./dist/index.d.ts",
