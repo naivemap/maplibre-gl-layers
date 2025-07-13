@@ -1,4 +1,3 @@
-import { satisfies } from 'compare-versions'
 import earcut, { flatten } from 'earcut'
 import maplibregl from 'maplibre-gl'
 import * as twgl from 'twgl.js'
@@ -48,7 +47,6 @@ export default class ImageLayer implements maplibregl.CustomLayerInterface {
   private bufferInfo?: twgl.BufferInfo
   private texture?: WebGLTexture
   // mask
-  private stencilChecked = true // resetStencilClippingMasks 版本检查
   private maskProperty: MaskProperty
   private maskProgramInfo?: twgl.ProgramInfo
   private maskBufferInfo?: twgl.BufferInfo
@@ -60,13 +58,6 @@ export default class ImageLayer implements maplibregl.CustomLayerInterface {
     this.maskProperty = Object.assign({ type: 'in' }, option.mask)
 
     this.metadata = option.metadata
-
-    // 检查 stencil 是否可用
-    this.stencilChecked = satisfies(maplibregl.getVersion(), '>=2.7.0')
-    // 如果传了 mask 边界数据，且版本不符
-    if (this.maskProperty.data && !this.stencilChecked) {
-      throw new Error(`如果需要遮罩（掩膜），mapbox-gl 版本必须：>=2.7.0`)
-    }
 
     // 初始化 Arrugator
     const { projection, coordinates } = option
@@ -116,10 +107,13 @@ export default class ImageLayer implements maplibregl.CustomLayerInterface {
      * 该方法在 maplibregl version >=2.7.0 才能用
      */
 
-    if (this.stencilChecked) {
+    // @ts-ignore
+    if (this.map && !this.map.painter.terrain) {
       // @ts-ignore
-      this.map.painter.resetStencilClippingMasks()
+      this.map.painter.currentStencilSource = undefined
+      this.map.painter._tileClippingMaskIDs = {}
     }
+    
     if (this.loaded && this.programInfo && this.bufferInfo) {
       const matrix = args.defaultProjectionData.mainMatrix
       // blend

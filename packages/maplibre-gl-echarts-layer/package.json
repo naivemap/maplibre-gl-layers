@@ -1,7 +1,7 @@
 {
   "name": "@naivemap/maplibre-gl-echarts-layer",
   "version": "0.0.0",
-  "description": "A JavaScript library template built with Vite",
+  "description": "Integrate the Lines graph and Scatter (bubble) chart of Apache ECharts",
   "main": "./dist/index.umd.cjs",
   "module": "./dist/index.js",
   "type": "module",
@@ -14,29 +14,17 @@
   "files": [
     "dist"
   ],
-  "keywords": [],
-  "author": "huangli",
-  "license": "BSD-3-Clause",
+  "keywords": ["maplibre", "echarts", "layer", "custom"],
+  "author": "naivemap",
+  "license": "MIT",
   "types": "./dist/index.d.ts",
-  "repository": "https://github.com/naivemap/maplibre-gl-echarts-layer",
+  "repository": "https://github.com/naivemap/maplibre-gl-layers",
   "scripts": {
-    "dev": "vite",
     "build": "vite build",
-    "gen-docs-example": "node ./scripts/gen-docs-example.js",
-    "docs:dev": "pnpm gen-docs-example && concurrently \"typedoc --watch\" \"vitepress dev docs\"",
-    "docs:build": "pnpm typedoc",
-    "docs:preview": "pnpm gen-docs-example && vitepress preview docs",
-    "test": "vitest",
-    "test:ui": "vitest --ui",
-    "changeset": "changeset",
-    "changeset:version": "changeset version",
-    "changeset:publish": "changeset publish",
-    "changeset:status": "changeset status",
-    "release": "pnpm build && changeset publish",
-    "prettier": "prettier --write ."
+    "docs:build": "pnpm typedoc"
   },
   "peerDependencies": {
-    "echarts": "^5.3.0",
+    "echarts": "^5.0.0",
     "maplibre-gl": "^4.0.0 || ^5.0.0"
   },
   "devDependencies": {

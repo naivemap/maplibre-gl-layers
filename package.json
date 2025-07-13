@@ -12,7 +12,7 @@
     "build": "pnpm -r build",
     "gen-docs-example": "node ./scripts/gen-docs-example.js",
     "docs:dev": "vitepress dev docs",
-    "docs:build": "pnpm -r docs:build",
+    "docs:build": "pnpm -r docs:build && vitepress build docs",
     "docs:preview": "pnpm gen-docs-example && vitepress preview docs",
     "test": "vitest",
     "test:ui": "vitest --ui",

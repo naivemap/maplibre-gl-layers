@@ -1,7 +1,7 @@
 {
   "name": "@naivemap/maplibre-gl-image-layer",
   "version": "0.0.0",
-  "description": "A JavaScript library template built with Vite",
+  "description": "Load a static image of any projection via Arrugator and Proj4js.",
   "main": "./dist/index.umd.cjs",
   "module": "./dist/index.js",
   "type": "module",
@@ -14,33 +14,20 @@
   "files": [
     "dist"
   ],
-  "keywords": [],
-  "author": "huangli",
-  "license": "BSD-3-Clause",
+  "keywords": ["maplibre", "image", "layer", "custom"],
+  "author": "naivemap",
+  "license": "MIT",
   "types": "./dist/index.d.ts",
-  "repository": "https://github.com/naivemap/maplibre-gl-echarts-layer",
+  "repository": "https://github.com/naivemap/maplibre-gl-layers",
   "scripts": {
-    "dev": "vite",
     "build": "vite build",
-    "gen-docs-example": "node ./scripts/gen-docs-example.js",
-    "docs:dev": "pnpm gen-docs-example && concurrently \"typedoc --watch\" \"vitepress dev docs\"",
-    "docs:build": "pnpm typedoc",
-    "docs:preview": "pnpm gen-docs-example && vitepress preview docs",
-    "test": "vitest",
-    "test:ui": "vitest --ui",
-    "changeset": "changeset",
-    "changeset:version": "changeset version",
-    "changeset:publish": "changeset publish",
-    "changeset:status": "changeset status",
-    "release": "pnpm build && changeset publish",
-    "prettier": "prettier --write ."
+    "docs:build": "pnpm typedoc"
   },
   "peerDependencies": {
     "proj4": "^2.8.0",
     "maplibre-gl": "^4.0.0 || ^5.0.0"
   },
   "dependencies": {
-    "compare-versions": "^6.1.1",
     "earcut": "^3.0.1",
     "tinyqueue": "^3.0.0",
     "twgl.js": "^5.5.4"

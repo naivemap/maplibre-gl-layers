@@ -7,7 +7,6 @@
     <link rel="stylesheet" href="https://unpkg.com/maplibre-gl/dist/maplibre-gl.css" />
     <script src="https://unpkg.com/maplibre-gl/dist/maplibre-gl.js"></script>
     <script src="https://unpkg.com/echarts/dist/echarts.min.js"></script>
-    <script src="./dist/index.umd.cjs"></script>
     <style>
       * {
         margin: 0;
@@ -18,6 +17,8 @@
 
   <body>
     <div id="map" style="position: absolute; top: 0; right: 0; bottom: 0; left: 0"></div>
-    <script type="module" src="./examples/scatter.js"></script>
+    <!-- <script src="./packages/maplibre-gl-echarts-layer/dist/index.umd.cjs"></script> -->
+    <script src="./packages/maplibre-gl-image-layer/dist/index.umd.cjs"></script>
+    <script type="module" src="./examples/image.js"></script>
   </body>
 </html>
