@@ -6,6 +6,7 @@
     "@naivemap/maplibre-gl-image-layer": "0.0.0"
   },
   "changesets": [
-    "fluffy-doors-rescue"
+    "fluffy-doors-rescue",
+    "fruity-dryers-beg"
   ]
 }
