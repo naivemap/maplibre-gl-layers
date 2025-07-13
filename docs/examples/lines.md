@@ -1,20 +1,25 @@
 
-# 显示地图
+# 路径图
 
-使用 MapLibre GL JS 在 HTML 元素中初始化地图。
+      property="og:description"
 
-<iframe src="/maplibre-gl-echarts-layer/demos/lines.html" width="100%" style="border:none; height:400px"></iframe>
+<iframe src="/maplibre-gl-layers/demos/lines.html" width="100%" style="border:none; height:400px"></iframe>
 
 ```html
 <!doctype html>
 <html lang="zh-Hans">
   <head>
-    <title>显示地图</title>
-    <meta property="og:description" content="使用 MapLibre GL JS 在 HTML 元素中初始化地图。" />
+    <title>路径图</title>
+    <meta
+      property="og:description"
+      content="用于带有起点和终点信息的线数据的绘制，主要用于地图上的航线，路线的可视化。"
+    />
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="stylesheet" href="https://unpkg.com/maplibre-gl/dist/maplibre-gl.css" />
     <script src="https://unpkg.com/maplibre-gl/dist/maplibre-gl.js"></script>
+    <script src="https://unpkg.com/echarts"></script>
+    <script src="https://unpkg.com/@naivemap/maplibre-gl-echarts-layer"></script>
     <style>
       * {
         margin: 0;
@@ -33,7 +38,6 @@
       const map = new maplibregl.Map({
         container: 'map',
         style: 'https://www.naivemap.com/demotiles/style.json',
-        center: [104.294538, 35.860092],
         center: [103.834171, 36.06138],
         minZoom: 3,
         maxZoom: 7,
@@ -166,7 +170,7 @@
           ]
         }
 
-        const layer = new EChartsLayer('layer-id', option)
+        const layer = new EChartsLayer('echarts-layer', option)
         map.addLayer(layer)
       })
     </script>

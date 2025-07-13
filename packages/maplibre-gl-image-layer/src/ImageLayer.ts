@@ -8,11 +8,26 @@ import vs from './shaders/image.vertex.glsl'
 import maskfs from './shaders/mask.fragment.glsl'
 import maskvs from './shaders/mask.vertex.glsl'
 
+/**
+ * The properties for masking the image layer.
+ */
 export type MaskProperty = {
-  type?: 'in' | 'out' // 内遮罩(默认)，外遮罩
+  /**
+   * The type of mask to apply.
+   * - 'in': The mask is applied inside the polygon (default).
+   * - 'out': The mask is applied outside the polygon.
+   */
+  type?: 'in' | 'out'
+  /**
+   * The data for the mask, which can be a GeoJSON Polygon or MultiPolygon.
+   * If not provided, no mask will be applied.
+   */
   data: GeoJSON.Polygon | GeoJSON.MultiPolygon
 }
 
+/**
+ * The options for the ImageLayer.
+ */
 export type ImageOption = {
   url: string
   projection: string
@@ -22,18 +37,40 @@ export type ImageOption = {
   crossOrigin?: string
   arrugatorStep?: number
   mask?: MaskProperty
-  metadata?: any
 }
 
 /**
  * ImageLayer is a custom layer for MapLibre GL that renders an image
  * with support for projection, coordinates, resampling, opacity, and masking.
+ *
+ * @example
+ * ```javascript
+ * const imageLayer = new ImageLayer('image-layer', {
+ *   url: 'https://example.com/image.png',
+ *   projection: 'EPSG:4326',
+ *   coordinates: [
+ *    [105.289838, 32.204171], // top-left
+ *    [110.195632, 32.204171], // top-right
+ *    [110.195632, 28.164713], // bottom-right
+ *    [105.289838, 28.164713] // bottom-left
+ *  ],
+ * });
+ *
+ * map.addLayer(imageLayer);
+ * ```
+ *
+ * @see
  */
 export default class ImageLayer implements maplibregl.CustomLayerInterface {
   id: string
+  /**
+   * @ignore
+   */
   type: 'custom' = 'custom' as const
+  /**
+   * @ignore
+   */
   renderingMode?: '2d' | '3d' | undefined = '2d'
-  metadata?: any
   private option: ImageOption
 
   private map?: maplibregl.Map
@@ -57,13 +94,14 @@ export default class ImageLayer implements maplibregl.CustomLayerInterface {
     this.loaded = false
     this.maskProperty = Object.assign({ type: 'in' }, option.mask)
 
-    this.metadata = option.metadata
-
     // 初始化 Arrugator
     const { projection, coordinates } = option
     this.arrugado = initArrugator(projection, coordinates, option.arrugatorStep)
   }
 
+  /**
+   * @ignore
+   */
   onAdd(map: maplibregl.Map, gl: WebGLRenderingContext) {
     this.map = map
     this.gl = gl
@@ -75,7 +113,7 @@ export default class ImageLayer implements maplibregl.CustomLayerInterface {
     this.bufferInfo = twgl.createBufferInfoFromArrays(gl, {
       a_pos: { numComponents: 2, data: this.arrugado.pos },
       a_uv: { numComponents: 2, data: this.arrugado.uv },
-      indices: this.arrugado.trigs,
+      indices: this.arrugado.trigs
     })
 
     // 掩膜程序
@@ -88,6 +126,9 @@ export default class ImageLayer implements maplibregl.CustomLayerInterface {
     }
   }
 
+  /**
+   * @ignore
+   */
   onRemove(_: maplibregl.Map, gl: WebGLRenderingContext) {
     if (this.programInfo) {
       gl.deleteProgram(this.programInfo.program)
@@ -100,20 +141,17 @@ export default class ImageLayer implements maplibregl.CustomLayerInterface {
     }
   }
 
+  /**
+   * @ignore
+   */
   render(gl: WebGLRenderingContext, args: any): void {
-    /**
-     * 线图层在启用 stencil 会消失，参考: https://github.com/mapbox/mapbox-gl-js/issues/12213
-     * 临时解决方案: map.painter.resetStencilClippingMasks()
-     * 该方法在 maplibregl version >=2.7.0 才能用
-     */
-
     // @ts-ignore
     if (this.map && !this.map.painter.terrain) {
       // @ts-ignore
       this.map.painter.currentStencilSource = undefined
       this.map.painter._tileClippingMaskIDs = {}
     }
-    
+
     if (this.loaded && this.programInfo && this.bufferInfo) {
       const matrix = args.defaultProjectionData.mainMatrix
       // blend
@@ -160,7 +198,7 @@ export default class ImageLayer implements maplibregl.CustomLayerInterface {
       twgl.setUniforms(this.programInfo, {
         u_matrix: matrix,
         u_opacity: this.option.opacity ?? 1,
-        u_sampler: this.texture,
+        u_sampler: this.texture
       })
       // pos, uv & indices
       twgl.setBuffersAndAttributes(gl, this.programInfo, this.bufferInfo)
@@ -194,15 +232,11 @@ export default class ImageLayer implements maplibregl.CustomLayerInterface {
         this.option.projection = option.projection ?? this.option.projection
         this.option.coordinates = option.coordinates ?? this.option.coordinates
         // reinit arrugator
-        this.arrugado = initArrugator(
-          this.option.projection,
-          this.option.coordinates,
-          this.option.arrugatorStep
-        )
+        this.arrugado = initArrugator(this.option.projection, this.option.coordinates, this.option.arrugatorStep)
         this.bufferInfo = twgl.createBufferInfoFromArrays(this.gl, {
           a_pos: { numComponents: 2, data: this.arrugado.pos },
           a_uv: { numComponents: 2, data: this.arrugado.uv },
-          indices: this.arrugado.trigs,
+          indices: this.arrugado.trigs
         })
       }
       if (option.url || option.resampling) {
@@ -251,7 +285,7 @@ export default class ImageLayer implements maplibregl.CustomLayerInterface {
         src: this.option.url,
         crossOrigin: this.option.crossOrigin,
         minMag: filter,
-        flipY: 0,
+        flipY: 0
       },
       () => {
         this.loaded = true
@@ -260,10 +294,7 @@ export default class ImageLayer implements maplibregl.CustomLayerInterface {
     )
   }
 
-  private getMaskBufferInfo(
-    gl: WebGLRenderingContext,
-    data: GeoJSON.Polygon | GeoJSON.MultiPolygon
-  ) {
+  private getMaskBufferInfo(gl: WebGLRenderingContext, data: GeoJSON.Polygon | GeoJSON.MultiPolygon) {
     let positions: number[] = []
     let triangles: number[] = []
     if (data.type === 'MultiPolygon') {
@@ -297,8 +328,7 @@ export default class ImageLayer implements maplibregl.CustomLayerInterface {
 
     return twgl.createBufferInfoFromArrays(gl, {
       a_pos: { numComponents: 2, data: positions },
-      indices:
-        triangles.length / 3 > 65535 ? new Uint32Array(triangles) : new Uint16Array(triangles),
+      indices: triangles.length / 3 > 65535 ? new Uint32Array(triangles) : new Uint16Array(triangles)
     })
   }
 }

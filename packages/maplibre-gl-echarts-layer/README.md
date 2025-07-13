@@ -11,7 +11,7 @@ pnpm add @naivemap/maplibre-gl-echarts-layer echarts
 ```ts
 // echart option
 const option = {...}
-const layer = new EChartsLayer('layer-id', option)
+const layer = new EChartsLayer('echarts-layer', option)
 
 map.addLayer(layer)
 ```

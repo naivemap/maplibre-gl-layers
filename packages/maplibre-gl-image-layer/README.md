@@ -9,7 +9,7 @@ pnpm add @naivemap/maplibre-gl-image-layer
 ## Example
 
 ```ts
-const layer = new ImageLayer('layer-id', option)
+const layer = new ImageLayer('image-layer', option)
 
 map.addLayer(layer)
 ```

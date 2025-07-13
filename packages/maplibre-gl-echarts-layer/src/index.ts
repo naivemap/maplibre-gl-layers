@@ -76,7 +76,7 @@ class CoordinateSystem {
 }
 
 /**
- * EChartsLayer is a custom layer for MapLibre GL that integrates ECharts.
+ * Integrate the Lines graph and Scatter (bubble) chart of Apache ECharts
  */
 export default class EChartsLayer implements maplibregl.CustomLayerInterface {
   id: string

@@ -48,7 +48,7 @@ export default defineConfig({
         },
         {
           text: 'image-layer',
-          link: '/image-layer',
+          link: '/api/image-layer',
           items: sidebarApi('image-layer')
         }
       ],
