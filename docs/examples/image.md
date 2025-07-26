@@ -44,7 +44,7 @@ Display an image with a custom projection (e.g., EPSG:4326).
       })
       map.on('load', () => {
         const layer4326 = new ImageLayer('image-layer', {
-          url: 'https://www.naivemap.com/mapbox-gl-js-cookbook/assets/images/4326.png',
+          url: './images/Terrain_CQ.png',
           projection: 'EPSG:4326',
           coordinates: [
             [105.289838, 32.204171], // top-left

@@ -29,7 +29,7 @@
   },
   "scripts": {
     "build": "vite build",
-    "typedocs": "pnpm typedoc --watch"
+    "typedocs": "pnpm typedoc"
   },
   "peerDependencies": {
     "echarts": "^5.0.0",
