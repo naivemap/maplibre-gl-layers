@@ -1,24 +1,7 @@
 {
-  "$schema": "https://typedoc-plugin-markdown.org/schema.json",
-  "lang": "zh",
+  "extends": ["../../typedoc.base.json"],
   "entryPoints": ["./src/index.ts"],
   "name": "@naivemap/maplibre-gl-image-layer",
   "out": "../../docs/api/image-layer",
-  "json": "../../docs/api/image-layer/api.json",
-  "plugin": ["typedoc-plugin-markdown"],
-  "mergeReadme": true,
-  "hideBreadcrumbs": true,
-  "indexFormat": "list",
-  "parametersFormat": "table",
-  "interfacePropertiesFormat": "table",
-  "classPropertiesFormat": "list",
-  "typeAliasPropertiesFormat": "list",
-  "excludePrivate": true,
-  "excludeProtected": true,
-  "excludeExternals": true,
-  "excludeNotDocumented": true,
-  "excludeInternal": true,
-  "disableSources": true,
-  "theme": "default",
-  "includeVersion": true
+  "json": "../../docs/api/image-layer/api.json"
 }
