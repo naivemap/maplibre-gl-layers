@@ -80,18 +80,14 @@ class CoordinateSystem {
  * @example
  * ```ts
  * import EChartsLayer from '@naivemap/maplibre-gl-echarts-layer'
- * const layer = new EChartsLayer('echarts-layer', {
- *   title: {
- *     text: 'ECharts Layer Example',
- *   },
- * }
+ *
+ * const layer = new EChartsLayer('echarts-layer', option)
  * map.addLayer(layer)
  * ```
  */
 export default class EChartsLayer implements maplibregl.CustomLayerInterface {
   id: string
   /**
-   * 图层类型
    * @ignore
    */
   type: 'custom'
@@ -106,9 +102,8 @@ export default class EChartsLayer implements maplibregl.CustomLayerInterface {
   private _ecOption: ECOption
 
   /**
-   * 构造函数，用于初始化 EChartsLayer 实例
-   * @param id - 图层 id
-   * @param ecOption - ECharts 的配置选项
+   * @param id - A unique layer id
+   * @param ecOption - ECharts configuration options
    */
   constructor(id: string, ecOption: ECOption) {
     this.id = id
@@ -139,8 +134,8 @@ export default class EChartsLayer implements maplibregl.CustomLayerInterface {
   }
 
   /**
-   * 设置配置项
-   * @param option
+   * Configuration item and data.
+   * @param option - ECharts configuration options
    */
   setOption(option: ECOption) {
     this._ec?.setOption(option)

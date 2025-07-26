@@ -29,13 +29,43 @@ export type MaskProperty = {
  * The options for the ImageLayer.
  */
 export type ImageOption = {
+  /**
+   * URL that points to an image.
+   */
   url: string
+  /**
+   * The projection of the image, typically an EPSG code like 'EPSG:4326'.
+   */
   projection: string
+  /**
+   * Corners of image specified in longitude, latitude pairs.
+   */
   coordinates: Coordinates
+  /**
+   * The resampling/interpolation method to use for overscaling.
+   * - 'linear': Linear interpolation (default).
+   * - 'nearest': Nearest neighbor interpolation.
+   * If not specified, the default is 'linear'.
+   */
   resampling?: 'linear' | 'nearest'
+  /**
+   * Opacity of the image layer, ranging from 0 (fully transparent) to 1 (fully opaque).
+   * Defaults to 1.
+   */
   opacity?: number
+  /**
+   * Cross-origin attribute for the image, which can be used to specify how the image should be fetched.
+   * Defaults to 'anonymous'.
+   */
   crossOrigin?: string
+  /**
+   * The step size for the Arrugator algorithm, which controls the granularity of the image rendering.
+   */
   arrugatorStep?: number
+  /**
+   * Masking properties for the image layer.
+   * If not provided, no mask will be applied.
+   */
   mask?: MaskProperty
 }
 
@@ -44,7 +74,7 @@ export type ImageOption = {
  * with support for projection, coordinates, resampling, opacity, and masking.
  *
  * @example
- * ```javascript
+ * ```ts
  * const imageLayer = new ImageLayer('image-layer', {
  *   url: 'https://example.com/image.png',
  *   projection: 'EPSG:4326',
@@ -58,8 +88,6 @@ export type ImageOption = {
  *
  * map.addLayer(imageLayer);
  * ```
- *
- * @see
  */
 export default class ImageLayer implements maplibregl.CustomLayerInterface {
   id: string
@@ -88,6 +116,10 @@ export default class ImageLayer implements maplibregl.CustomLayerInterface {
   private maskProgramInfo?: twgl.ProgramInfo
   private maskBufferInfo?: twgl.BufferInfo
 
+  /**
+   * @param id - A unique layer id
+   * @param option - ImageLayer options
+   */
   constructor(id: string, option: ImageOption) {
     this.id = id
     this.option = option
