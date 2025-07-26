@@ -16,9 +16,10 @@
   "scripts": {
     "dev": "vite",
     "build": "pnpm -r build",
+    "typedoc": "pnpm -r typedocs",
     "gen-docs-example": "node ./scripts/gen-docs-example.js",
     "docs:example": "pnpm gen-docs-example",
-    "docs:dev": "pnpm build && vitepress dev docs",
+    "docs:dev": "pnpm build && concurrently \"pnpm typedoc\" \"vitepress dev docs\"",
     "docs:build": "pnpm build && pnpm docs:example && vitepress build docs",
     "docs:preview": "vitepress preview docs",
     "test": "vitest",

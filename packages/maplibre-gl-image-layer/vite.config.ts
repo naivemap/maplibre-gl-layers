@@ -13,7 +13,6 @@ export default defineConfig({
       name: 'ImageLayer', // 暴露的全局变量名
       fileName: 'index' // 输出的包文件名
     },
-    copyPublicDir: false,
     rollupOptions: {
       // 确保外部化处理那些你不想打包进库的依赖
       external: ['maplibre-gl'],
@@ -25,10 +24,5 @@ export default defineConfig({
       }
     }
   },
-  plugins: [dts({ insertTypesEntry: true, rollupTypes: false }), vitePluginBundleObfuscator()],
-  resolve: {
-    alias: {
-      '@': resolve(__dirname, 'src') // 配置别名
-    }
-  }
+  plugins: [dts({ insertTypesEntry: true, rollupTypes: false }), vitePluginBundleObfuscator()]
 })

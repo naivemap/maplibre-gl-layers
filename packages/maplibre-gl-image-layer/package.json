@@ -28,7 +28,8 @@
     "access": "public"
   },
   "scripts": {
-    "build": "vite build && pnpm typedoc"
+    "build": "vite build",
+    "typedocs": "pnpm typedoc --watch"
   },
   "peerDependencies": {
     "proj4": "^2.8.0",
