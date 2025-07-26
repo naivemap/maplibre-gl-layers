@@ -29,37 +29,78 @@ export type MaskProperty = {
  * The options for the ImageLayer.
  */
 export type ImageOption = {
+  /**
+   * URL that points to an image.
+   */
   url: string
+  /**
+   * The projection of the image, typically an EPSG code like 'EPSG:4326'.
+   */
   projection: string
+  /**
+   * Corners of image specified in longitude, latitude pairs.
+   */
   coordinates: Coordinates
+  /**
+   * The resampling/interpolation method to use for overscaling.
+   * - 'linear': Linear interpolation (default).
+   * - 'nearest': Nearest neighbor interpolation.
+   * If not specified, the default is 'linear'.
+   */
   resampling?: 'linear' | 'nearest'
+  /**
+   * Opacity of the image layer, ranging from 0 (fully transparent) to 1 (fully opaque).
+   * Defaults to 1.
+   */
   opacity?: number
+  /**
+   * Cross-origin attribute for the image, which can be used to specify how the image should be fetched.
+   * Defaults to 'anonymous'.
+   */
   crossOrigin?: string
+  /**
+   * The step size for the Arrugator algorithm, which controls the granularity of the image rendering.
+   */
   arrugatorStep?: number
+  /**
+   * Masking properties for the image layer.
+   * If not provided, no mask will be applied.
+   */
   mask?: MaskProperty
 }
 
 /**
- * ImageLayer is a custom layer for MapLibre GL that renders an image
- * with support for projection, coordinates, resampling, opacity, and masking.
+ * A custom MapLibre GL JS layer for rendering georeferenced images with arbitrary projections.
+ *
+ * @remarks
+ * This layer uses `proj4js` to transform image coordinates from any source projection
+ * into the map's coordinate system. It triangulates the image corners to correctly
+ * warp and display it on the map canvas. This is ideal for overlaying historical maps,
+ * floor plans, or other non-standard raster data.
  *
  * @example
- * ```javascript
- * const imageLayer = new ImageLayer('image-layer', {
- *   url: 'https://example.com/image.png',
- *   projection: 'EPSG:4326',
+ * ```ts
+ * import ImageLayer from '@naivemap/maplibre-gl-image-layer';
+ * import proj4 from 'proj4';
+ *
+ * // 1. Define the source projection if it's not standard
+ * proj4.defs('EPSG:2154', '+proj=lcc +lat_0=46.5 +lon_0=3 +lat_1=49 +lat_2=44 +x_0=700000 +y_0=6600000 +ellps=GRS80 +units=m +no_defs');
+ *
+ * // 2. Create the layer instance
+ * const layer = new ImageLayer('image-layer', {
+ *   url: 'https://example.com/my-image.png',
  *   coordinates: [
- *    [105.289838, 32.204171], // top-left
- *    [110.195632, 32.204171], // top-right
- *    [110.195632, 28.164713], // bottom-right
- *    [105.289838, 28.164713] // bottom-left
- *  ],
+ *     [100000, 6700000], // Top-left corner in source projection
+ *     [110000, 6700000], // Top-right
+ *     [110000, 6600000], // Bottom-right
+ *     [100000, 6600000]  // Bottom-left
+ *   ],
+ *   projection: 'EPSG:2154'
  * });
  *
- * map.addLayer(imageLayer);
+ * // 3. Add the layer to the map
+ * map.addLayer(layer);
  * ```
- *
- * @see
  */
 export default class ImageLayer implements maplibregl.CustomLayerInterface {
   id: string
@@ -88,6 +129,10 @@ export default class ImageLayer implements maplibregl.CustomLayerInterface {
   private maskProgramInfo?: twgl.ProgramInfo
   private maskBufferInfo?: twgl.BufferInfo
 
+  /**
+   * @param id - A unique layer id
+   * @param option - ImageLayer options
+   */
   constructor(id: string, option: ImageOption) {
     this.id = id
     this.option = option

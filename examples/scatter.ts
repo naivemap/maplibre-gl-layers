@@ -1,4 +1,6 @@
-// import EChartsLayer from '../src/index.ts'
+import maplibregl from 'maplibre-gl'
+import 'maplibre-gl/dist/maplibre-gl.css'
+import EChartsLayer, { type ECOption } from '../packages/maplibre-gl-echarts-layer/src'
 
 const map = new maplibregl.Map({
   container: 'map',
@@ -51,7 +53,7 @@ map.on('load', () => {
     { name: '万盛区', value: [106.934677, 28.971242, 2] },
     { name: '武隆区', value: [107.755067, 29.32831, 5] }
   ]
-  const option = {
+  const option: ECOption = {
     tooltip: {
       trigger: 'item'
     },

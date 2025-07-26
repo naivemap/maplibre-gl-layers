@@ -3,25 +3,28 @@
 layout: home
 
 hero:
-  name: 'maplibre-gl-layers'
-  text: '自定义图层集'
+  name: 'Custom layers'
+  text: 'for MapLibre GL JS'
   tagline:
   image:
     src: /logo.svg
     alt: maplibre-gl-layers
   actions:
     - theme: brand
-      text: 快速开始
-      link: /starter
+      text: Get started
+      link: /guide
     - theme: alt
       text: API References
       link: /api
 
 features:
-  - title: Feature A
-    details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
-  - title: Feature B
-    details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
-  - title: Feature C
-    details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
+  - icon: 📊
+    title: EChartsLayer
+    link: ./api/echarts-layer/
+  - icon: 🖼️
+    title: ImageLayer
+    link: ./api/image-layer 
+  - icon: ✨
+    title: One More Thing
+    link: https://github.com/naivemap/maplibre-gl-layers
 ---

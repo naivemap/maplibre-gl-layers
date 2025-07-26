@@ -1,3 +1,7 @@
+import maplibregl from 'maplibre-gl'
+import 'maplibre-gl/dist/maplibre-gl.css'
+import EChartsLayer, { type ECOption } from '../packages/maplibre-gl-echarts-layer/src'
+
 const map = new maplibregl.Map({
   container: 'map',
   style: 'https://www.naivemap.com/demotiles/style.json',
@@ -21,7 +25,7 @@ map.on('load', () => {
     }
   }
 
-  const data = [
+  const data: [number, number, number, number, string, number][] = [
     [113.26388, 23.12946, 106.547764, 29.565907, '广州', 60],
     [108.939839, 34.34127, 106.547764, 29.565907, '西安', 5],
     [113.624931, 34.74725, 106.547764, 29.565907, '郑州', 12],
@@ -55,8 +59,8 @@ map.on('load', () => {
     [101.777819, 36.617289, 106.547764, 29.565907, '西宁', 2]
   ]
 
-  const scatterData = []
-  const lineData = []
+  const scatterData: any[] = []
+  const lineData: any[] = []
 
   for (let i = 0; i < data.length; i++) {
     const item = data[i]
@@ -70,11 +74,11 @@ map.on('load', () => {
     lineData.push({
       name: name,
       value: value,
-      coords: [item.slice(0, 2), item.slice(2, 4)]
+      coords: [item.slice(0, 2).map(Number) as [number, number], item.slice(2, 4).map(Number) as [number, number]]
     })
   }
 
-  const option = {
+  const option: ECOption = {
     tooltip: {
       trigger: 'item',
       textStyle: {
