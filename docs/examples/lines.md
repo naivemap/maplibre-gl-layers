@@ -1,19 +1,16 @@
 
-# 路径图
+# Lines Chart
 
-      property="og:description"
+Visualize flight routes and paths with animated lines.
 
 <iframe src="/maplibre-gl-layers/demos/lines.html" width="100%" style="border:none; height:400px"></iframe>
 
 ```html
 <!doctype html>
-<html lang="zh-Hans">
+<html lang="en">
   <head>
-    <title>路径图</title>
-    <meta
-      property="og:description"
-      content="用于带有起点和终点信息的线数据的绘制，主要用于地图上的航线，路线的可视化。"
-    />
+    <title>Lines Chart</title>
+    <meta property="og:description" content="Visualize flight routes and paths with animated lines." />
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="stylesheet" href="https://unpkg.com/maplibre-gl/dist/maplibre-gl.css" />
@@ -38,10 +35,10 @@
       const map = new maplibregl.Map({
         container: 'map',
         style: 'https://www.naivemap.com/demotiles/style.json',
-        center: [103.834171, 36.06138],
-        minZoom: 3,
+        center: [106.547764, 29.565907],
+        minZoom: 1,
         maxZoom: 7,
-        zoom: 3.4
+        zoom: 3
       })
       map.on('load', () => {
         const colors = ['#00F8FF', '#00FF00', '#FFF800', '#FF0000']

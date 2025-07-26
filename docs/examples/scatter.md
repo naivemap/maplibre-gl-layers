@@ -1,16 +1,16 @@
 
-# 散点（气泡）图
+# Scatter (Bubble) Chart
 
-涟漪特效散点图。
+Display a scatter chart with ripple effects.
 
 <iframe src="/maplibre-gl-layers/demos/scatter.html" width="100%" style="border:none; height:400px"></iframe>
 
 ```html
 <!doctype html>
-<html lang="zh-Hans">
+<html lang="en">
   <head>
-    <title>散点（气泡）图</title>
-    <meta property="og:description" content="涟漪特效散点图。" />
+    <title>Scatter (Bubble) Chart</title>
+    <meta property="og:description" content="Display a scatter chart with ripple effects." />
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="stylesheet" href="https://unpkg.com/maplibre-gl/dist/maplibre-gl.css" />

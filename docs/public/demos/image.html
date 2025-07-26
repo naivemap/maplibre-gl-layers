@@ -1,8 +1,8 @@
 <!doctype html>
-<html lang="zh-Hans">
+<html lang="en">
   <head>
-    <title>投影图片</title>
-    <meta property="og:description" content="显示 EPSG:4326 投影的图片。" />
+    <title>Georeferenced Image with EPSG:4326</title>
+    <meta property="og:description" content="Display an image with a custom projection (e.g., EPSG:4326)." />
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="stylesheet" href="https://unpkg.com/maplibre-gl/dist/maplibre-gl.css" />
@@ -36,7 +36,7 @@
       })
       map.on('load', () => {
         const layer4326 = new ImageLayer('image-layer', {
-          url: 'https://www.naivemap.com/mapbox-gl-js-cookbook/assets/images/4326.png',
+          url: './images/Terrain_CQ.png',
           projection: 'EPSG:4326',
           coordinates: [
             [105.289838, 32.204171], // top-left
