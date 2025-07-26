@@ -1,7 +1,7 @@
 {
   "name": "@naivemap/maplibre-gl-echarts-layer",
   "version": "0.0.1-alpha.1",
-  "description": "Integrate the Lines graph and Scatter (bubble) chart of Apache ECharts",
+  "description": "A MapLibre GL JS layer to integrate Apache ECharts' Lines and Scatter charts.",
   "main": "./dist/index.umd.cjs",
   "module": "./dist/index.js",
   "type": "module",

@@ -70,23 +70,36 @@ export type ImageOption = {
 }
 
 /**
- * ImageLayer is a custom layer for MapLibre GL that renders an image
- * with support for projection, coordinates, resampling, opacity, and masking.
+ * A custom MapLibre GL JS layer for rendering georeferenced images with arbitrary projections.
+ *
+ * @remarks
+ * This layer uses `proj4js` to transform image coordinates from any source projection
+ * into the map's coordinate system. It triangulates the image corners to correctly
+ * warp and display it on the map canvas. This is ideal for overlaying historical maps,
+ * floor plans, or other non-standard raster data.
  *
  * @example
  * ```ts
- * const imageLayer = new ImageLayer('image-layer', {
- *   url: 'https://example.com/image.png',
- *   projection: 'EPSG:4326',
+ * import ImageLayer from '@naivemap/maplibre-gl-image-layer';
+ * import proj4 from 'proj4';
+ *
+ * // 1. Define the source projection if it's not standard
+ * proj4.defs('EPSG:2154', '+proj=lcc +lat_0=46.5 +lon_0=3 +lat_1=49 +lat_2=44 +x_0=700000 +y_0=6600000 +ellps=GRS80 +units=m +no_defs');
+ *
+ * // 2. Create the layer instance
+ * const layer = new ImageLayer('image-layer', {
+ *   url: 'https://example.com/my-image.png',
  *   coordinates: [
- *    [105.289838, 32.204171], // top-left
- *    [110.195632, 32.204171], // top-right
- *    [110.195632, 28.164713], // bottom-right
- *    [105.289838, 28.164713] // bottom-left
- *  ],
+ *     [100000, 6700000], // Top-left corner in source projection
+ *     [110000, 6700000], // Top-right
+ *     [110000, 6600000], // Bottom-right
+ *     [100000, 6600000]  // Bottom-left
+ *   ],
+ *   projection: 'EPSG:2154'
  * });
  *
- * map.addLayer(imageLayer);
+ * // 3. Add the layer to the map
+ * map.addLayer(layer);
  * ```
  */
 export default class ImageLayer implements maplibregl.CustomLayerInterface {

@@ -1,6 +1,6 @@
 # Guide
 
-There is a collection of custom layer implementations for MapLibre GL JS, designed to extend its visualization capabilities.
+This repository provides a collection of custom layer implementations for MapLibre GL JS, designed to extend its visualization capabilities.
 
 ## Introduction
 

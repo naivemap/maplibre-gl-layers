@@ -1,7 +1,7 @@
 {
   "name": "@naivemap/maplibre-gl-echarts-layer",
   "version": "0.0.0",
-  "description": "Some implementations of maplibre's custom layer API.",
+  "description": "A collection of custom layer implementations for MapLibre GL JS.",
   "private": true,
   "keywords": [
     "maplibre",
