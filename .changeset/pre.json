@@ -6,7 +6,9 @@
     "@naivemap/maplibre-gl-image-layer": "0.0.0"
   },
   "changesets": [
+    "chilly-jeans-knock",
     "fluffy-doors-rescue",
-    "fruity-dryers-beg"
+    "fruity-dryers-beg",
+    "stale-boats-carry"
   ]
 }
