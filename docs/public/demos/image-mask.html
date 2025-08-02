@@ -1,20 +1,22 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <title>Georeferenced Image with EPSG:4326</title>
-    <meta property="og:description" content="Display an image with a custom projection (e.g., EPSG:4326)." />
+    <title>Georeferenced Image with Mask</title>
+    <meta property="og:description" content="Display a georeferenced image with a polygon mask to show only a specific area." />
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="stylesheet" href="https://unpkg.com/maplibre-gl/dist/maplibre-gl.css" />
     <script src="https://unpkg.com/maplibre-gl/dist/maplibre-gl.js"></script>
     <script src="https://unpkg.com/proj4"></script>
     <script src="https://unpkg.com/@naivemap/maplibre-gl-image-layer"></script>
+    <script src="https://unpkg.com/tweakpane@3.1.4"></script>
     <link rel="stylesheet" href="./style.css" />
   </head>
 
   <body>
     <div id="map"></div>
     <script>
+      // const pane = new Tweakpane.Pane()
       const map = new maplibregl.Map({
         container: 'map',
         style: 'https://www.naivemap.com/demotiles/style.json',
@@ -35,7 +37,21 @@
             [110.195632, 32.204171], // top-right
             [110.195632, 28.164713], // bottom-right
             [105.289838, 28.164713] // bottom-left
-          ]
+          ],
+          mask: {
+            data: {
+              coordinates: [
+                [
+                  [106.44608656573695, 29.874792116904175],
+                  [106.44608656573695, 29.35260054138334],
+                  [108.0312946475434, 29.35260054138334],
+                  [108.0312946475434, 29.874792116904175],
+                  [106.44608656573695, 29.874792116904175]
+                ]
+              ],
+              type: 'Polygon'
+            }
+          }
         })
 
         map.addLayer(layer4326)

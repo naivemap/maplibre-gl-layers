@@ -17,16 +17,7 @@ Visualize flight routes and paths with animated lines.
     <script src="https://unpkg.com/maplibre-gl/dist/maplibre-gl.js"></script>
     <script src="https://unpkg.com/echarts"></script>
     <script src="https://unpkg.com/@naivemap/maplibre-gl-echarts-layer"></script>
-    <style>
-      * {
-        margin: 0;
-        padding: 0;
-      }
-
-      #map {
-        height: 400px;
-      }
-    </style>
+    <link rel="stylesheet" href="./style.css" />
   </head>
 
   <body>

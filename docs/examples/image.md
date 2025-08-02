@@ -15,17 +15,9 @@ Display an image with a custom projection (e.g., EPSG:4326).
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="stylesheet" href="https://unpkg.com/maplibre-gl/dist/maplibre-gl.css" />
     <script src="https://unpkg.com/maplibre-gl/dist/maplibre-gl.js"></script>
+    <script src="https://unpkg.com/proj4"></script>
     <script src="https://unpkg.com/@naivemap/maplibre-gl-image-layer"></script>
-    <style>
-      * {
-        margin: 0;
-        padding: 0;
-      }
-
-      #map {
-        height: 400px;
-      }
-    </style>
+    <link rel="stylesheet" href="./style.css" />
   </head>
 
   <body>
