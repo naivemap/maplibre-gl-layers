@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="stylesheet" href="https://unpkg.com/maplibre-gl/dist/maplibre-gl.css" />
     <script src="https://unpkg.com/maplibre-gl/dist/maplibre-gl.js"></script>
-    <script src="https://unpkg.com/proj4/dist/proj4.js"></script>
+    <script src="https://unpkg.com/proj4"></script>
     <script src="https://unpkg.com/@naivemap/maplibre-gl-image-layer"></script>
     <style>
       * {
@@ -34,13 +34,9 @@
       const map = new maplibregl.Map({
         container: 'map',
         style: 'https://www.naivemap.com/demotiles/style.json',
-        bounds: [
-          [105.289838, 32.204171],
-          [110.195632, 28.164713]
-        ],
-        fitBoundsOptions: {
-          padding: { top: 10, bottom: 10, left: 10, right: 10 }
-        }
+        center: [-5.24, 56.4],
+        zoom: 3.2,
+        hash: true
       })
       map.on('load', () => {
         const layer = new ImageLayer('image-layer', {

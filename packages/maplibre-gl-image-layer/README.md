@@ -7,5 +7,5 @@ ImageLayer ([@naivemap/maplibre-gl-image-layer](https://www.npmjs.com/package/@n
 ## Install
 
 ```bash
-pnpm add @naivemap/maplibre-gl-image-layer
+pnpm add @naivemap/maplibre-gl-image-layer proj4
 ```
