@@ -26,7 +26,7 @@ Install the desired package using your favorite package manager:
 pnpm add @naivemap/maplibre-gl-echarts-layer echarts maplibre-gl
 
 # Install ImageLayer
-pnpm add @naivemap/maplibre-gl-image-layer proj4js maplibre-gl
+pnpm add @naivemap/maplibre-gl-image-layer proj4 maplibre-gl
 ```
 
 ### Quick Usage Example (`EChartsLayer`)

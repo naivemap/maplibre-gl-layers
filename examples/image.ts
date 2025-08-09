@@ -16,16 +16,16 @@ const map = new maplibregl.Map({
 })
 
 map.on('load', () => {
-  const layer4326 = new ImageLayer('layer-4326', {
+  const layer = new ImageLayer('image-layer', {
     url: 'https://www.naivemap.com/mapbox-gl-js-cookbook/assets/images/4326.png',
     projection: 'EPSG:4326',
     coordinates: [
-      [105.289838, 32.204171], // top-left
-      [110.195632, 32.204171], // top-right
-      [110.195632, 28.164713], // bottom-right
-      [105.289838, 28.164713] // bottom-left
+      [105.289838, 32.204171],
+      [110.195632, 32.204171],
+      [110.195632, 28.164713],
+      [105.289838, 28.164713]
     ]
   })
 
-  map.addLayer(layer4326)
+  map.addLayer(layer)
 })

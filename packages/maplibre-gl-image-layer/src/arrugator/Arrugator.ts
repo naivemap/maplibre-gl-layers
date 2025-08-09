@@ -94,18 +94,14 @@ export default class Arrugator {
     // the distance function being euclidean distance in the "destination"
     // projection, squared.
 
-    const midpoint = [
-      (this._verts[v1][0] + this._verts[v2][0]) / 2,
-      (this._verts[v1][1] + this._verts[v2][1]) / 2,
-    ]
+    const midpoint = [(this._verts[v1][0] + this._verts[v2][0]) / 2, (this._verts[v1][1] + this._verts[v2][1]) / 2]
     const projectedMid = this._projector(midpoint)
     const midProjected = [
       (this._projVerts[v1][0] + this._projVerts[v2][0]) / 2,
-      (this._projVerts[v1][1] + this._projVerts[v2][1]) / 2,
+      (this._projVerts[v1][1] + this._projVerts[v2][1]) / 2
     ]
 
-    const epsilon =
-      (projectedMid[0] - midProjected[0]) ** 2 + (projectedMid[1] - midProjected[1]) ** 2
+    const epsilon = (projectedMid[0] - midProjected[0]) ** 2 + (projectedMid[1] - midProjected[1]) ** 2
 
     if (Number.isFinite(epsilon) && epsilon < maxEpsilon) {
       this._queue.push({
@@ -113,7 +109,7 @@ export default class Arrugator {
         v2: v2,
         epsilon: epsilon,
         midpoint: midpoint,
-        projectedMid: projectedMid,
+        projectedMid: projectedMid
       })
     }
 
@@ -128,7 +124,7 @@ export default class Arrugator {
       unprojected: Array.from(this._verts),
       projected: Array.from(this._projVerts),
       uv: Array.from(this._uv),
-      trigs: Array.from(this._trigs),
+      trigs: Array.from(this._trigs)
     }
   }
 
@@ -148,9 +144,7 @@ export default class Arrugator {
       if (currentEpsilon === lastEpsilon) {
         this._stepsWithSameEpsilon++
         if (this._stepsWithSameEpsilon < 500) {
-          console.warn(
-            'Arrugator stopped due to epsilon stall. Raster may need hints for proper arrugation.'
-          )
+          console.warn('Arrugator stopped due to epsilon stall. Raster may need hints for proper arrugation.')
           break
         }
       } else {
@@ -214,10 +208,7 @@ export default class Arrugator {
     this._projVerts[vm] = seg.projectedMid
     this._verts[vm] = seg.midpoint
     this._vertToSeg[vm] = []
-    this._uv[vm] = [
-      (this._uv[v1][0] + this._uv[v2][0]) / 2,
-      (this._uv[v1][1] + this._uv[v2][1]) / 2,
-    ]
+    this._uv[vm] = [(this._uv[v1][0] + this._uv[v2][0]) / 2, (this._uv[v1][1] + this._uv[v2][1]) / 2]
 
     for (const t of trigs) {
       this._splitTriangle(v1, v2, vm, t, maxEpsilon)
