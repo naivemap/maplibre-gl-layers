@@ -32,11 +32,13 @@
     "typedocs": "pnpm typedoc"
   },
   "peerDependencies": {
-    "proj4": "^2.8.0",
-    "maplibre-gl": "^4.0.0 || ^5.0.0"
+    "maplibre-gl": "^4.0.0 || ^5.0.0",
+    "proj4": "^2.8.0"
   },
   "dependencies": {
+    "@types/geojson": "^7946.0.16",
     "earcut": "^3.0.1",
+    "es-toolkit": "^1.39.8",
     "tinyqueue": "^3.0.0",
     "twgl.js": "^5.5.4"
   },

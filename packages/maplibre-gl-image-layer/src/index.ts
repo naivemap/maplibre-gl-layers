@@ -1,5 +1,5 @@
 import ImageLayer from './ImageLayer'
-export type { ImageOption, MaskProperty } from './ImageLayer'
+export type { ImageLayerOption as ImageOption } from './ImageLayer'
 export default ImageLayer
 
-export type { Coordinates } from './arrugator'
+export type { MaskProperty } from './mask'

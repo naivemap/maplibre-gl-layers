@@ -1,34 +1,18 @@
-import earcut, { flatten } from 'earcut'
+import { merge } from 'es-toolkit'
 import maplibregl from 'maplibre-gl'
 import * as twgl from 'twgl.js'
-import type { ArrugadoFlat, Coordinates } from './arrugator'
+import type { ArrugadoFlat } from './arrugator'
 import { initArrugator } from './arrugator'
+import { earcutPolygon, extractPolygonAsync, MaskProperty } from './mask'
 import fs from './shaders/image.fragment.glsl'
 import vs from './shaders/image.vertex.glsl'
 import maskfs from './shaders/mask.fragment.glsl'
 import maskvs from './shaders/mask.vertex.glsl'
 
 /**
- * The properties for masking the image layer.
- */
-export type MaskProperty = {
-  /**
-   * The type of mask to apply.
-   * - 'in': The mask is applied inside the polygon (default).
-   * - 'out': The mask is applied outside the polygon.
-   */
-  type?: 'in' | 'out'
-  /**
-   * The data for the mask, which can be a GeoJSON Polygon or MultiPolygon.
-   * If not provided, no mask will be applied.
-   */
-  data: GeoJSON.Polygon | GeoJSON.MultiPolygon
-}
-
-/**
  * The options for the ImageLayer.
  */
-export type ImageOption = {
+export type ImageLayerOption = {
   /**
    * URL that points to an image.
    */
@@ -40,7 +24,7 @@ export type ImageOption = {
   /**
    * Corners of image specified in longitude, latitude pairs.
    */
-  coordinates: Coordinates
+  coordinates: maplibregl.Coordinates
   /**
    * The resampling/interpolation method to use for overscaling.
    * - 'linear': Linear interpolation (default).
@@ -112,7 +96,7 @@ export default class ImageLayer implements maplibregl.CustomLayerInterface {
    * @ignore
    */
   renderingMode?: '2d' | '3d' | undefined = '2d'
-  private option: ImageOption
+  private option: ImageLayerOption
 
   private map?: maplibregl.Map
   private gl?: WebGLRenderingContext
@@ -133,7 +117,7 @@ export default class ImageLayer implements maplibregl.CustomLayerInterface {
    * @param id - A unique layer id
    * @param option - ImageLayer options
    */
-  constructor(id: string, option: ImageOption) {
+  constructor(id: string, option: ImageLayerOption) {
     this.id = id
     this.option = option
     this.loaded = false
@@ -163,11 +147,10 @@ export default class ImageLayer implements maplibregl.CustomLayerInterface {
 
     // 掩膜程序
     if (this.maskProperty.data) {
-      const { data } = this.maskProperty
-      if (data) {
+      this.getMaskBufferInfo(gl, this.maskProperty.data).then((bufferInfo) => {
         this.maskProgramInfo = twgl.createProgramInfo(gl, [maskvs, maskfs])
-        this.maskBufferInfo = this.getMaskBufferInfo(gl, data)
-      }
+        this.maskBufferInfo = bufferInfo
+      })
     }
   }
 
@@ -190,11 +173,9 @@ export default class ImageLayer implements maplibregl.CustomLayerInterface {
    * @ignore
    */
   render(gl: WebGLRenderingContext, args: any): void {
-    // @ts-ignore
-    if (this.map && !this.map.painter.terrain) {
-      // @ts-ignore
-      this.map.painter.currentStencilSource = undefined
-      this.map.painter._tileClippingMaskIDs = {}
+    if (this.maskProperty.data && !this.maskBufferInfo) {
+      // 有遮罩数据，但未加载完成（因为支持异步请求遮罩数据），先不渲染
+      return
     }
 
     if (this.loaded && this.programInfo && this.bufferInfo) {
@@ -204,6 +185,12 @@ export default class ImageLayer implements maplibregl.CustomLayerInterface {
       gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA)
 
       if (this.maskProgramInfo && this.maskBufferInfo) {
+        // @ts-ignore
+        if (this.map && !this.map.painter.terrain) {
+          // @ts-ignore
+          this.map.painter.currentStencilSource = undefined
+          this.map.painter._tileClippingMaskIDs = {}
+        }
         // mask program
         gl.useProgram(this.maskProgramInfo.program)
 
@@ -258,122 +245,79 @@ export default class ImageLayer implements maplibregl.CustomLayerInterface {
   /**
    * Updates the URL, the projection, the coordinates, the opacity or the resampling of the image.
    * @param {Object} option Options object.
-   * @param {string} [option.url] Image URL.
-   * @param {string} [option.projection] Projection with EPSG code that points to the image..
-   * @param {Array<Array<number>>} [option.coordinates] Four geographical coordinates,
-   * @param {number} [option.opacity] opacity of the image.
-   * @param {string} [option.resampling] The resampling/interpolation method to use for overscaling.
    */
-  updateImage(option: {
-    url?: string
-    projection?: string
-    coordinates?: Coordinates
-    opacity?: number
-    resampling?: 'linear' | 'nearest'
-  }) {
-    if (this.gl && this.map) {
-      this.option.opacity = option.opacity ?? this.option.opacity
-      if (option.projection || option.coordinates) {
-        this.option.projection = option.projection ?? this.option.projection
-        this.option.coordinates = option.coordinates ?? this.option.coordinates
-        // reinit arrugator
-        this.arrugado = initArrugator(this.option.projection, this.option.coordinates, this.option.arrugatorStep)
-        this.bufferInfo = twgl.createBufferInfoFromArrays(this.gl, {
-          a_pos: { numComponents: 2, data: this.arrugado.pos },
-          a_uv: { numComponents: 2, data: this.arrugado.uv },
-          indices: this.arrugado.trigs
-        })
-      }
-      if (option.url || option.resampling) {
-        this.loaded = false
-        this.option.url = option.url ?? this.option.url
-        this.option.resampling = option.resampling ?? this.option.resampling
-        // reload image
-        this.loadTexture(this.map, this.gl)
-      } else {
-        this.map.triggerRepaint()
-      }
+  updateImage(option: Partial<ImageLayerOption>) {
+    if (!this.map || !this.gl) return
+
+    this.option.opacity = option.opacity ?? this.option.opacity
+    this.option.crossOrigin = option.crossOrigin ?? this.option.crossOrigin
+    if (option.projection || option.coordinates) {
+      this.option.projection = option.projection ?? this.option.projection
+      this.option.coordinates = option.coordinates ?? this.option.coordinates
+      this.option.arrugatorStep = option.arrugatorStep ?? this.option.arrugatorStep
+      // reinit arrugator
+      this.arrugado = initArrugator(this.option.projection, this.option.coordinates, this.option.arrugatorStep)
+      this.bufferInfo = twgl.createBufferInfoFromArrays(this.gl, {
+        a_pos: { numComponents: 2, data: this.arrugado.pos },
+        a_uv: { numComponents: 2, data: this.arrugado.uv },
+        indices: this.arrugado.trigs
+      })
     }
-    return this
-  }
-
-  /**
-   * Updates the mask property
-   * @param {MaskProperty} mask The mask property.
-   */
-  updateMask(mask: Partial<MaskProperty>) {
-    if (this.gl && this.map) {
-      if (mask.data) {
-        if (!this.maskProgramInfo) {
-          this.maskProgramInfo = twgl.createProgramInfo(this.gl, [maskvs, maskfs])
-        }
-
-        this.maskProperty = Object.assign(this.maskProperty, mask)
-        this.maskBufferInfo = this.getMaskBufferInfo(this.gl, this.maskProperty.data)
-      } else {
-        this.maskProgramInfo && this.gl.deleteProgram(this.maskProgramInfo.program)
-        this.maskProgramInfo = undefined
+    if (option.mask) {
+      this.maskProperty = merge(this.maskProperty, option.mask)
+      if (option.mask.data) {
+        this.getMaskBufferInfo(this.gl, option.mask.data).then((bufferInfo) => {
+          this.maskBufferInfo = bufferInfo
+          this.map?.triggerRepaint()
+        })
+      } else if (option.mask.hasOwnProperty('data') && option.mask.data === undefined) {
         this.maskBufferInfo = undefined
       }
+    }
+    if (option.url || option.resampling) {
+      // this.loaded = false
+      this.option.url = option.url ?? this.option.url
+      this.option.resampling = option.resampling ?? this.option.resampling
+      // reload image
+      this.loadTexture(this.map, this.gl)
+    } else {
       this.map.triggerRepaint()
     }
-    return this
   }
 
   private loadTexture(map: maplibregl.Map, gl: WebGLRenderingContext) {
     // 创建纹理
     const filter = this.option.resampling === 'nearest' ? gl.NEAREST : gl.LINEAR
 
-    this.texture = twgl.createTexture(
+    twgl.createTexture(
       gl,
       {
         src: this.option.url,
         crossOrigin: this.option.crossOrigin,
         minMag: filter,
-        flipY: 0
+        flipY: 0,
+        premultiplyAlpha: 1
       },
-      () => {
+      (err, texture, source) => {
+        const maxTextureSize = gl.getParameter(gl.MAX_TEXTURE_SIZE)
+        const { width, height } = source as HTMLImageElement
+        if (width > maxTextureSize || height > maxTextureSize) {
+          throw new Error(`The texture size exceeds the maximum supported size: ${maxTextureSize}x${maxTextureSize}`)
+        }
+        this.texture = texture
         this.loaded = true
         map.triggerRepaint()
       }
     )
   }
 
-  private getMaskBufferInfo(gl: WebGLRenderingContext, data: GeoJSON.Polygon | GeoJSON.MultiPolygon) {
-    let positions: number[] = []
-    let triangles: number[] = []
-    if (data.type === 'MultiPolygon') {
-      // type: 'MultiPolygon'
-      const polyCount = data.coordinates.length
-      let triangleStartIndex = 0
-      for (let i = 0; i < polyCount; i++) {
-        const coordinates = data.coordinates[i]
-        const flattened = flatten(coordinates)
-        const { vertices, holes, dimensions } = flattened
-        const triangle = earcut(vertices, holes, dimensions)
-        const triangleNew = triangle.map((item) => item + triangleStartIndex)
-
-        triangleStartIndex += vertices.length / 2
-        // positions.push(...vertices)
-        // triangles.push(...triangleNew)
-        for (let m = 0; m < vertices.length; m++) {
-          positions.push(vertices[m])
-        }
-        for (let n = 0; n < triangleNew.length; n++) {
-          triangles.push(triangleNew[n])
-        }
-      }
-    } else {
-      // type: 'Polygon'
-      const flattened = flatten(data.coordinates)
-      const { vertices, holes, dimensions } = flattened
-      positions = vertices
-      triangles = earcut(vertices, holes, dimensions)
-    }
-
-    return twgl.createBufferInfoFromArrays(gl, {
-      a_pos: { numComponents: 2, data: positions },
-      indices: triangles.length / 3 > 65535 ? new Uint32Array(triangles) : new Uint16Array(triangles)
+  private getMaskBufferInfo(gl: WebGLRenderingContext, data: MaskProperty['data']) {
+    return extractPolygonAsync(data).then((_poly) => {
+      const { vertices, indices } = earcutPolygon(_poly)
+      return twgl.createBufferInfoFromArrays(gl, {
+        a_pos: { numComponents: 2, data: vertices },
+        indices: indices.length / 3 > 65535 ? new Uint32Array(indices) : new Uint16Array(indices)
+      })
     })
   }
 }
