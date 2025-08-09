@@ -1,7 +1,7 @@
 
-# Georeferenced Image with Mask
+# Image with Mask
 
-      property="og:description"
+Display an image with a polygon mask to show only a specific area.
 
 <iframe src="/maplibre-gl-layers/demos/image-mask.html" width="100%" style="border:none; height:400px"></iframe>
 
@@ -9,11 +9,8 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <title>Georeferenced Image with Mask</title>
-    <meta
-      property="og:description"
-      content="Display a georeferenced image with a polygon mask to show only a specific area."
-    />
+    <title>Image with Mask</title>
+    <meta property="og:description" content="Display an image with a polygon mask to show only a specific area." />
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="stylesheet" href="https://unpkg.com/maplibre-gl/dist/maplibre-gl.css" />
@@ -27,7 +24,9 @@
   <body>
     <div id="map"></div>
     <script>
-      // const pane = new Tweakpane.Pane()
+      const pane = new Tweakpane.Pane({
+        title: 'Image Layer Option'
+      })
       const map = new maplibregl.Map({
         container: 'map',
         style: 'https://www.naivemap.com/demotiles/style.json',
@@ -39,8 +38,9 @@
           padding: { top: 10, bottom: 10, left: 10, right: 10 }
         }
       })
+
       map.on('load', () => {
-        const layer4326 = new ImageLayer('image-layer', {
+        const layer = new ImageLayer('image-layer', {
           url: './images/Terrain_CQ.jpeg',
           projection: 'EPSG:4326',
           coordinates: [
@@ -48,13 +48,67 @@
             [110.19401, 32.20291],
             [110.19401, 28.16587],
             [105.29197, 28.16587]
-          ],
-          mask: {
-            data: './data/chongqing.geojson'
-          }
+          ]
         })
 
-        map.addLayer(layer4326)
+        map.addLayer(layer)
+
+        const PARAMS = {
+          opacity: 1.0,
+          resampling: 'linear',
+          maskType: 'in',
+          maskData: './data/chongqing.geojson'
+        }
+        pane.addInput(PARAMS, 'opacity', { min: 0, max: 1, step: 0.1 }).on('change', (e) => {
+          layer.updateImage({ opacity: e.value })
+        })
+        pane
+          .addInput(PARAMS, 'resampling', {
+            options: {
+              linear: 'linear',
+              nearest: 'nearest'
+            }
+          })
+          .on('change', (e) => {
+            layer.updateImage({ resampling: e.value })
+          })
+        const MASK_PARAMS = {
+          type: 'in',
+          data: ''
+        }
+        const maskPane = pane.addFolder({ title: '遮罩属性' })
+        maskPane
+          .addInput(MASK_PARAMS, 'type', {
+            options: {
+              in: 'in',
+              out: 'out'
+            }
+          })
+          .on('change', (e) => {
+            layer.updateImage({ mask: { type: e.value } })
+          })
+        maskPane
+          .addInput(MASK_PARAMS, 'data', {
+            options: {
+              None: '',
+              CQ: './data/chongqing.geojson',
+              BBOX: {
+                coordinates: [
+                  [
+                    [106.0233, 29.86176],
+                    [106.0233, 29.37936],
+                    [108.32478, 29.37936],
+                    [108.32478, 29.86176],
+                    [106.0233, 29.86176]
+                  ]
+                ],
+                type: 'Polygon'
+              }
+            }
+          })
+          .on('change', (e) => {
+            layer.updateMask({ mask: { data: !!e.value ? e.value : undefined } })
+          })
       })
     </script>
   </body>

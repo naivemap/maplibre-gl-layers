@@ -1,5 +1,5 @@
 
-# Georeferenced Image with EPSG:4326
+# Image with EPSG:4326
 
 Display an image with a custom projection (e.g., EPSG:4326).
 
@@ -9,7 +9,7 @@ Display an image with a custom projection (e.g., EPSG:4326).
 <!doctype html>
 <html lang="en">
   <head>
-    <title>Georeferenced Image with EPSG:4326</title>
+    <title>Image with EPSG:4326</title>
     <meta property="og:description" content="Display an image with a custom projection (e.g., EPSG:4326)." />
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />

@@ -1,8 +1,16 @@
+
+# Image with EPSG:3857
+
+Display an image with a custom projection (e.g., EPSG:3857).
+
+<iframe src="/maplibre-gl-layers/demos/image-3857.html" width="100%" style="border:none; height:400px"></iframe>
+
+```html
 <!doctype html>
 <html lang="en">
   <head>
-    <title>Image with EPSG:4326</title>
-    <meta property="og:description" content="Display an image with a custom projection (e.g., EPSG:4326)." />
+    <title>Image with EPSG:3857</title>
+    <meta property="og:description" content="Display an image with a custom projection (e.g., EPSG:3857)." />
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="stylesheet" href="https://unpkg.com/maplibre-gl/dist/maplibre-gl.css" />
@@ -32,7 +40,7 @@
           data: './data/chongqing.geojson'
         })
         const layer = new ImageLayer('image-layer', {
-          url: './images/Terrain_CQ.jpeg',
+          url: './images/Terrain_CQ_3857.jpeg',
           projection: 'EPSG:4326',
           coordinates: [
             [105.29197, 32.20291],
@@ -51,3 +59,5 @@
     </script>
   </body>
 </html>
+
+```
