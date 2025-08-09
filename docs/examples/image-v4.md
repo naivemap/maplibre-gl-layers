@@ -1,20 +1,21 @@
 
-# Georeferenced Image with EPSG:4326
+# Georeferenced Image for maplibre-gl v4
 
-Display an image with a custom projection (e.g., EPSG:4326).
+Display an image with a custom projection for maplibre-gl v4.
 
-<iframe src="/maplibre-gl-layers/demos/image.html" width="100%" style="border:none; height:400px"></iframe>
+<iframe src="/maplibre-gl-layers/demos/image-v4.html" width="100%" style="border:none; height:400px"></iframe>
 
 ```html
 <!doctype html>
 <html lang="en">
   <head>
-    <title>Georeferenced Image with EPSG:4326</title>
-    <meta property="og:description" content="Display an image with a custom projection (e.g., EPSG:4326)." />
+    <title>Georeferenced Image for maplibre-gl v4</title>
+    <meta property="og:description" content="Display an image with a custom projection for maplibre-gl v4." />
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="stylesheet" href="https://unpkg.com/maplibre-gl/dist/maplibre-gl.css" />
-    <script src="https://unpkg.com/maplibre-gl/dist/maplibre-gl.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css" />
+    <script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
+
     <script src="https://unpkg.com/proj4"></script>
     <script src="https://unpkg.com/@naivemap/maplibre-gl-image-layer"></script>
     <link rel="stylesheet" href="./style.css" />

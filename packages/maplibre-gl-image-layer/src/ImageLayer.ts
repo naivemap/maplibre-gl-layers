@@ -174,15 +174,14 @@ export default class ImageLayer implements maplibregl.CustomLayerInterface {
    */
   render(gl: WebGLRenderingContext, args: any): void {
     if (this.maskProperty.data && !this.maskBufferInfo) {
-      // 有遮罩数据，但未加载完成（因为支持异步请求遮罩数据），先不渲染
       return
     }
 
     if (this.loaded && this.programInfo && this.bufferInfo) {
-      const matrix = args.defaultProjectionData.mainMatrix
+      const matrix = Array.isArray(args) ? args : args.defaultProjectionData.mainMatrix
       // blend
       gl.enable(gl.BLEND)
-      gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA)
+      gl.blendFunc(gl.ONE, gl.ONE_MINUS_SRC_ALPHA)
 
       if (this.maskProgramInfo && this.maskBufferInfo) {
         // @ts-ignore
@@ -214,6 +213,8 @@ export default class ImageLayer implements maplibregl.CustomLayerInterface {
           elementType = gl.UNSIGNED_INT
         }
         gl.drawElements(gl.TRIANGLES, this.maskBufferInfo.numElements, elementType, 0)
+        // gl.clear(gl.STENCIL_BUFFER_BIT)
+        // gl.disable(gl.STENCIL_TEST)
       }
 
       // texture program
@@ -236,9 +237,6 @@ export default class ImageLayer implements maplibregl.CustomLayerInterface {
       twgl.setBuffersAndAttributes(gl, this.programInfo, this.bufferInfo)
       // draw
       gl.drawElements(gl.TRIANGLES, this.arrugado.trigs.length, gl.UNSIGNED_SHORT, 0)
-
-      gl.clear(gl.STENCIL_BUFFER_BIT)
-      gl.disable(gl.STENCIL_TEST)
     }
   }
 
@@ -251,7 +249,7 @@ export default class ImageLayer implements maplibregl.CustomLayerInterface {
 
     this.option.opacity = option.opacity ?? this.option.opacity
     this.option.crossOrigin = option.crossOrigin ?? this.option.crossOrigin
-    if (option.projection || option.coordinates) {
+    if (option.projection || option.coordinates || option.arrugatorStep) {
       this.option.projection = option.projection ?? this.option.projection
       this.option.coordinates = option.coordinates ?? this.option.coordinates
       this.option.arrugatorStep = option.arrugatorStep ?? this.option.arrugatorStep

@@ -1,7 +1,7 @@
 
 # Georeferenced Image with Mask
 
-Display a georeferenced image with a polygon mask to show only a specific area.
+      property="og:description"
 
 <iframe src="/maplibre-gl-layers/demos/image-mask.html" width="100%" style="border:none; height:400px"></iframe>
 
@@ -10,7 +10,10 @@ Display a georeferenced image with a polygon mask to show only a specific area.
 <html lang="en">
   <head>
     <title>Georeferenced Image with Mask</title>
-    <meta property="og:description" content="Display a georeferenced image with a polygon mask to show only a specific area." />
+    <meta
+      property="og:description"
+      content="Display a georeferenced image with a polygon mask to show only a specific area."
+    />
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="stylesheet" href="https://unpkg.com/maplibre-gl/dist/maplibre-gl.css" />
@@ -29,8 +32,8 @@ Display a georeferenced image with a polygon mask to show only a specific area.
         container: 'map',
         style: 'https://www.naivemap.com/demotiles/style.json',
         bounds: [
-          [105.289838, 32.204171],
-          [110.195632, 28.164713]
+          [105.29197, 32.20291],
+          [110.19401, 28.16587]
         ],
         fitBoundsOptions: {
           padding: { top: 10, bottom: 10, left: 10, right: 10 }
@@ -38,27 +41,16 @@ Display a georeferenced image with a polygon mask to show only a specific area.
       })
       map.on('load', () => {
         const layer4326 = new ImageLayer('image-layer', {
-          url: './images/Terrain_CQ.png',
+          url: './images/Terrain_CQ.jpeg',
           projection: 'EPSG:4326',
           coordinates: [
-            [105.289838, 32.204171], // top-left
-            [110.195632, 32.204171], // top-right
-            [110.195632, 28.164713], // bottom-right
-            [105.289838, 28.164713] // bottom-left
+            [105.29197, 32.20291],
+            [110.19401, 32.20291],
+            [110.19401, 28.16587],
+            [105.29197, 28.16587]
           ],
           mask: {
-            data: {
-              coordinates: [
-                [
-                  [106.44608656573695, 29.874792116904175],
-                  [106.44608656573695, 29.35260054138334],
-                  [108.0312946475434, 29.35260054138334],
-                  [108.0312946475434, 29.874792116904175],
-                  [106.44608656573695, 29.874792116904175]
-                ]
-              ],
-              type: 'Polygon'
-            }
+            data: './data/chongqing.geojson'
           }
         })
 
