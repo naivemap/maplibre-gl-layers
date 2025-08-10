@@ -1,5 +1,5 @@
 
-# Georeferenced Image for maplibre-gl v4
+# Image for maplibre-gl v4
 
 Display an image with a custom projection for maplibre-gl v4.
 
@@ -9,7 +9,7 @@ Display an image with a custom projection for maplibre-gl v4.
 <!doctype html>
 <html lang="en">
   <head>
-    <title>Georeferenced Image for maplibre-gl v4</title>
+    <title>Image for maplibre-gl v4</title>
     <meta property="og:description" content="Display an image with a custom projection for maplibre-gl v4." />
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />

@@ -1,8 +1,8 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <title>Image with EPSG:4326</title>
-    <meta property="og:description" content="Display an image with a custom projection (e.g., EPSG:4326)." />
+    <title>Image with EPSG:3857</title>
+    <meta property="og:description" content="Display an image with a custom projection (e.g., EPSG:3857)." />
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="stylesheet" href="https://unpkg.com/maplibre-gl/dist/maplibre-gl.css" />
@@ -32,14 +32,15 @@
           data: './data/chongqing.geojson'
         })
         const layer = new ImageLayer('image-layer', {
-          url: './images/Terrain_CQ.jpeg',
-          projection: 'EPSG:4326',
+          url: './images/Terrain_CQ_3857.jpeg',
+          projection: 'EPSG:4326', // Use EPSG:4326 for coordinates
           coordinates: [
             [105.29197, 32.20291],
             [110.19401, 32.20291],
             [110.19401, 28.16587],
             [105.29197, 28.16587]
-          ]
+          ],
+          arrugatorStep: 0, // Set to 0 to disable arrugator
         })
         map.addLayer(layer)
         map.addLayer({

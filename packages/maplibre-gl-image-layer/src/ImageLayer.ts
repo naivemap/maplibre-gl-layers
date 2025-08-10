@@ -1,4 +1,3 @@
-import { merge } from 'es-toolkit'
 import maplibregl from 'maplibre-gl'
 import * as twgl from 'twgl.js'
 import type { ArrugadoFlat } from './arrugator'
@@ -244,8 +243,8 @@ export default class ImageLayer implements maplibregl.CustomLayerInterface {
    * Updates the URL, the projection, the coordinates, the opacity or the resampling of the image.
    * @param {Object} option Options object.
    */
-  updateImage(option: Partial<ImageLayerOption>) {
-    if (!this.map || !this.gl) return
+  updateImage(option: Partial<Omit<ImageLayerOption, 'mask'>>) {
+    if (!this.map || !this.gl) return this
 
     this.option.opacity = option.opacity ?? this.option.opacity
     this.option.crossOrigin = option.crossOrigin ?? this.option.crossOrigin
@@ -261,19 +260,8 @@ export default class ImageLayer implements maplibregl.CustomLayerInterface {
         indices: this.arrugado.trigs
       })
     }
-    if (option.mask) {
-      this.maskProperty = merge(this.maskProperty, option.mask)
-      if (option.mask.data) {
-        this.getMaskBufferInfo(this.gl, option.mask.data).then((bufferInfo) => {
-          this.maskBufferInfo = bufferInfo
-          this.map?.triggerRepaint()
-        })
-      } else if (option.mask.hasOwnProperty('data') && option.mask.data === undefined) {
-        this.maskBufferInfo = undefined
-      }
-    }
     if (option.url || option.resampling) {
-      // this.loaded = false
+      this.loaded = false
       this.option.url = option.url ?? this.option.url
       this.option.resampling = option.resampling ?? this.option.resampling
       // reload image
@@ -281,6 +269,33 @@ export default class ImageLayer implements maplibregl.CustomLayerInterface {
     } else {
       this.map.triggerRepaint()
     }
+    return this
+  }
+
+  /**
+   * Updates the mask property of the image layer.
+   * @param mask
+   * @returns
+   */
+  updateMask(mask: Partial<MaskProperty>) {
+    if (!this.map || !this.gl) return this
+
+    this.maskProperty = Object.assign(this.maskProperty, mask)
+    if (mask.data) {
+      this.getMaskBufferInfo(this.gl, mask.data).then((bufferInfo) => {
+        if (!this.maskProgramInfo) {
+          this.maskProgramInfo = twgl.createProgramInfo(this.gl!, [maskvs, maskfs])
+        }
+        this.maskBufferInfo = bufferInfo
+        this.map?.triggerRepaint()
+      })
+    } else if (mask.hasOwnProperty('data') && mask.data === undefined) {
+      this.maskBufferInfo = undefined
+      this.map?.triggerRepaint()
+    } else {
+      this.map?.triggerRepaint()
+    }
+    return this
   }
 
   private loadTexture(map: maplibregl.Map, gl: WebGLRenderingContext) {
