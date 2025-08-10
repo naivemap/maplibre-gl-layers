@@ -6,6 +6,7 @@
     "@naivemap/maplibre-gl-image-layer": "0.0.0"
   },
   "changesets": [
+    "breezy-bananas-bet",
     "chilly-jeans-knock",
     "famous-hands-divide",
     "fluffy-doors-rescue",
